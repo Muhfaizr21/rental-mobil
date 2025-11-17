@@ -2,66 +2,85 @@
 <div id="chatbot-widget" class="fixed bottom-6 right-6 z-50">
     <!-- Toggle Button -->
     <div id="chatbot-toggle"
-         class="w-14 h-14 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white text-xl cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group">
-        <span class="group-hover:scale-110 transition-transform">💬</span>
-        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+         class="w-16 h-16 bg-gradient-to-br from-gray-900 to-black rounded-full flex items-center justify-center text-white text-2xl cursor-pointer shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group border border-gray-700">
+        <span class="group-hover:rotate-12 transition-transform duration-300">🚗</span>
+        <div class="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full animate-pulse border border-white"></div>
     </div>
 
     <!-- Chat Container -->
     <div id="chatbot-container"
-         class="absolute bottom-20 right-0 w-96 h-[500px] bg-white rounded-2xl shadow-2xl hidden flex-col border border-gray-100 transform transition-all duration-300 scale-95 origin-bottom-right">
+         class="absolute bottom-24 right-0 w-96 h-[600px] bg-white rounded-2xl shadow-2xl hidden flex-col border border-gray-200 transform transition-all duration-300 scale-95 origin-bottom-right backdrop-blur-sm">
 
         <!-- Header -->
-        <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-t-2xl flex justify-between items-center">
+        <div class="bg-gradient-to-r from-gray-900 to-black text-white p-5 rounded-t-2xl flex justify-between items-center border-b border-gray-700">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <span class="text-lg">🚗</span>
+                <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-400 rounded-full flex items-center justify-center shadow-lg">
+                    <span class="text-xl">⚡</span>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg">Rental Assistant</h3>
-                    <p class="text-blue-100 text-xs flex items-center">
-                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                        Online • AI Powered
+                    <h3 class="font-bold text-lg tracking-tight">RentGo Assistant</h3>
+                    <p class="text-gray-300 text-xs flex items-center font-medium">
+                        <span class="w-2 h-2 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full mr-2 animate-pulse"></span>
+                        Premium Service • AI Powered
                     </p>
                 </div>
             </div>
-            <div class="flex items-center space-x-2">
-                <button id="chatbot-clear" class="text-white hover:text-blue-200 text-sm transition-colors" title="Hapus Chat">
-                    🗑️
+            <div class="flex items-center space-x-3">
+                <button id="chatbot-clear" class="text-gray-300 hover:text-amber-400 text-lg transition-all duration-200 hover:scale-110" title="Clear Chat">
+                    🔄
                 </button>
-                <button id="chatbot-close" class="text-white hover:text-blue-200 text-xl font-bold transition-colors">×</button>
+                <button id="chatbot-close" class="text-gray-300 hover:text-white text-2xl font-bold transition-all duration-200 hover:scale-110">×</button>
             </div>
         </div>
 
         <!-- Messages Area -->
-        <div id="chatbot-messages" class="flex-1 p-4 overflow-y-auto bg-gradient-to-b from-gray-50 to-blue-50 space-y-3">
+        <div id="chatbot-messages" class="flex-1 p-5 overflow-y-auto bg-gradient-to-br from-gray-50 to-white space-y-4">
             <div class="flex justify-start">
-                <div class="bg-white rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] shadow-sm border border-blue-100">
-                    <p class="text-gray-800 text-sm">Halo! 👋 Saya asisten rental mobil. Tanyakan tentang:</p>
-                    <ul class="text-xs text-gray-600 mt-2 space-y-1">
-                        <li>• 🚗 Mobil tersedia</li>
-                        <li>• 💰 Harga sewa</li>
-                        <li>• 📋 Syarat rental</li>
-                        <li>• 📅 Cara booking</li>
+                <div class="bg-white rounded-2xl rounded-tl-none px-5 py-4 max-w-[90%] shadow-lg border border-gray-100">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-amber-500 to-yellow-400 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                            R
+                        </div>
+                        <span class="text-sm font-semibold text-gray-800">RentGo Assistant</span>
+                    </div>
+                    <p class="text-gray-700 text-sm leading-relaxed">Halo! 👋 Saya asisten rental mobil premium. Tanyakan tentang:</p>
+                    <ul class="text-sm text-gray-600 mt-3 space-y-2">
+                        <li class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                            <span>🚗 Mobil premium tersedia</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                            <span>💰 Paket harga eksklusif</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                            <span>📋 Syarat rental premium</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                            <span>⭐ Layanan VIP</span>
+                        </li>
                     </ul>
-                    <span class="text-xs text-gray-500 mt-2 block">{{ now()->format('H:i') }}</span>
+                    <span class="text-xs text-gray-400 mt-3 block">{{ now()->format('H:i') }}</span>
                 </div>
             </div>
         </div>
 
         <!-- Input Area -->
-        <div class="p-4 border-t border-gray-200 bg-white rounded-b-2xl">
-            <div class="flex space-x-2">
+        <div class="p-5 border-t border-gray-200 bg-white rounded-b-2xl">
+            <div class="flex space-x-3">
                 <input type="text"
                        id="chatbot-text"
-                       placeholder="Tanya tentang rental mobil..."
-                       class="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm shadow-sm">
+                       placeholder="Tanya tentang rental mobil premium..."
+                       class="flex-1 px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm shadow-sm bg-gray-50 focus:bg-white transition-all duration-200 text-gray-800 placeholder-gray-500">
                 <button id="chatbot-send"
-                        class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-5 py-3 rounded-full hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-sm font-medium">
-                    Kirim
+                        class="bg-gradient-to-r from-gray-900 to-black text-white px-6 py-4 rounded-2xl hover:from-amber-600 hover:to-amber-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-sm font-semibold flex items-center space-x-2">
+                    <span>Kirim</span>
+                    <span class="text-lg">↑</span>
                 </button>
             </div>
-            <p class="text-xs text-gray-500 text-center mt-2">Powered by Real-time Database • Ketik 'hapus' untuk reset chat</p>
+            <p class="text-xs text-gray-500 text-center mt-3 font-medium">Premium Service • Type 'clear' to reset chat</p>
         </div>
     </div>
 </div>
@@ -125,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!message) return;
 
         // Check if user wants to clear chat
-        if (message.toLowerCase() === 'hapus' || message.toLowerCase() === 'clear') {
+        if (message.toLowerCase() === 'clear' || message.toLowerCase() === 'hapus') {
             clearChatHistory();
             chatbotText.value = '';
             return;
@@ -170,13 +189,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addMessage(text, sender, timestamp = null) {
         const messageDiv = document.createElement('div');
-        messageDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-4 animate-fade-in`;
+        messageDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-5 animate-fade-in`;
 
         const messageBubble = document.createElement('div');
         if (sender === 'user') {
-            messageBubble.className = 'bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl rounded-br-none px-4 py-3 max-w-[85%] shadow-lg';
+            messageBubble.className = 'bg-gradient-to-r from-gray-900 to-black text-white rounded-2xl rounded-br-none px-5 py-4 max-w-[90%] shadow-xl';
         } else {
-            messageBubble.className = 'bg-white rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] shadow-sm border border-blue-100';
+            messageBubble.className = 'bg-white rounded-2xl rounded-tl-none px-5 py-4 max-w-[90%] shadow-lg border border-gray-100';
+
+            // Add bot avatar for bot messages
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'flex items-center space-x-2 mb-2';
+            avatarDiv.innerHTML = `
+                <div class="w-6 h-6 bg-gradient-to-br from-amber-500 to-yellow-400 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    R
+                </div>
+                <span class="text-xs font-semibold text-gray-700">RentGo Assistant</span>
+            `;
+            messageBubble.appendChild(avatarDiv);
         }
 
         const messageText = document.createElement('p');
@@ -184,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         messageText.textContent = text;
 
         const timeSpan = document.createElement('span');
-        timeSpan.className = sender === 'user' ? 'text-xs text-blue-100 mt-2 block' : 'text-xs text-gray-500 mt-2 block';
+        timeSpan.className = sender === 'user' ? 'text-xs text-gray-300 mt-2 block' : 'text-xs text-gray-400 mt-2 block';
         timeSpan.textContent = timestamp || new Date().toLocaleTimeString('id-ID', {
             hour: '2-digit',
             minute: '2-digit'
@@ -200,16 +230,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showLoading() {
         const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'flex justify-start mb-4 animate-fade-in';
+        loadingDiv.className = 'flex justify-start mb-5 animate-fade-in';
         loadingDiv.innerHTML = `
-            <div class="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-sm border border-blue-100">
-                <div class="flex items-center space-x-2">
-                    <div class="flex space-x-1">
-                        <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
-                        <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                        <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            <div class="bg-white rounded-2xl rounded-tl-none px-5 py-4 shadow-lg border border-gray-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-amber-500 to-yellow-400 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                        R
                     </div>
-                    <span class="text-xs text-gray-500">AI sedang mengetik...</span>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-semibold text-gray-700 mb-1">RentGo Assistant</span>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex space-x-1">
+                                <div class="w-2 h-2 bg-amber-500 rounded-full animate-bounce"></div>
+                                <div class="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                                <div class="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                            </div>
+                            <span class="text-xs text-gray-500">Mengetik...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -227,11 +265,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function clearChatHistory() {
         chatbotMessages.innerHTML = `
-            <div class="flex justify-start mb-4 animate-fade-in">
-                <div class="bg-white rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] shadow-sm border border-blue-100">
-                    <p class="text-gray-800 text-sm">Obrolan telah dihapus! 🧹</p>
-                    <p class="text-gray-800 text-sm mt-1">Ada yang bisa saya bantu?</p>
-                    <span class="text-xs text-gray-500 mt-2 block">${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
+            <div class="flex justify-start mb-5 animate-fade-in">
+                <div class="bg-white rounded-2xl rounded-tl-none px-5 py-4 max-w-[90%] shadow-lg border border-gray-100">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-amber-500 to-yellow-400 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                            R
+                        </div>
+                        <span class="text-sm font-semibold text-gray-800">RentGo Assistant</span>
+                    </div>
+                    <p class="text-gray-700 text-sm">Obrolan telah dihapus! 🧹</p>
+                    <p class="text-gray-700 text-sm mt-1">Ada yang bisa saya bantu mengenai layanan premium kami?</p>
+                    <span class="text-xs text-gray-400 mt-2 block">${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</span>
                 </div>
             </div>
         `;
@@ -289,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 #chatbot-messages::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: #f8fafc;
     border-radius: 3px;
 }
 
@@ -307,6 +351,10 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 #chatbot-toggle {
-    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+}
+
+.hover\:shadow-3xl:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
 }
 </style>
