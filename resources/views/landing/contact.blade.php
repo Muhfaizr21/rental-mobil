@@ -17,7 +17,7 @@
             Butuh Bantuan? <span class="text-amber-400">Chat Aja!</span>
         </h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-            Tim kita siap bantu lo 24/7. Jangan sungkan buat nanya-nanya ya!
+            Tim kita siap bantu kalian 24/7. Jangan sungkan buat nanya-nanya ya!
         </p>
     </div>
 </section>
@@ -28,14 +28,14 @@
         {{-- Quick Contact Cards --}}
         <div class="grid md:grid-cols-3 gap-8 mb-16">
             {{-- WhatsApp Card --}}
-            <a href="https://wa.me/6281234567890" class="group bg-gradient-to-br from-green-600 to-green-700 rounded-3xl p-8 text-white hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-green-500/30 border border-green-500/30">
+            <a href="https://wa.me/6285601700507" class="group bg-gradient-to-br from-green-600 to-green-700 rounded-3xl p-8 text-white hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-green-500/30 border border-green-500/30">
                 <div class="flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 group-hover:scale-110 transition-transform border border-white/20">
                     <span class="text-2xl">💬</span>
                 </div>
                 <h3 class="text-2xl font-bold mb-2">WhatsApp</h3>
                 <p class="text-green-100 mb-4">Chat langsung, dijamin cepet responnya!</p>
                 <div class="flex items-center justify-between">
-                    <span class="text-lg font-semibold">+62 812-3456-7890</span>
+                    <span class="text-lg font-semibold">+6285601700507</span>
                     <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
@@ -46,14 +46,14 @@
             </a>
 
             {{-- Phone Card --}}
-            <a href="tel:+6281234567890" class="group bg-gradient-to-br from-blue-600 to-blue-700 rounded-3xl p-8 text-white hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/30 border border-blue-500/30">
+            <a href="tel:+6285601700507" class="group bg-gradient-to-br from-blue-600 to-blue-700 rounded-3xl p-8 text-white hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-blue-500/30 border border-blue-500/30">
                 <div class="flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 group-hover:scale-110 transition-transform border border-white/20">
                     <span class="text-2xl">📞</span>
                 </div>
                 <h3 class="text-2xl font-bold mb-2">Telepon</h3>
                 <p class="text-blue-100 mb-4">Langsung telepon kalo lebih enak</p>
                 <div class="flex items-center justify-between">
-                    <span class="text-lg font-semibold">+62 812-3456-7890</span>
+                    <span class="text-lg font-semibold">+6285601700507</span>
                     <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
@@ -64,14 +64,14 @@
             </a>
 
             {{-- Email Card --}}
-            <a href="mailto:support@rentcarid.com" class="group bg-gradient-to-br from-purple-600 to-purple-700 rounded-3xl p-8 text-white hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-purple-500/30 border border-purple-500/30">
+            <a href="mailto:rentgo.idcirebon@gmail.com" class="group bg-gradient-to-br from-purple-600 to-purple-700 rounded-3xl p-8 text-white hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-purple-500/30 border border-purple-500/30">
                 <div class="flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 group-hover:scale-110 transition-transform border border-white/20">
                     <span class="text-2xl">✉️</span>
                 </div>
                 <h3 class="text-2xl font-bold mb-2">Email</h3>
                 <p class="text-purple-100 mb-4">Kirim pertanyaan lewat email</p>
                 <div class="flex items-center justify-between">
-                    <span class="text-lg font-semibold text-sm">support@rentcarid.com</span>
+                    <span class="text-lg font-semibold text-sm">rentgo.idcirebon@gmail.com</span>
                     <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
@@ -102,9 +102,7 @@
                         <div class="flex-1">
                             <h3 class="font-bold text-white mb-1">Alamat Kantor</h3>
                             <p class="text-gray-300 leading-relaxed">
-                                Jl. Sunan Kalijaga No. 123<br>
-                                Kesambi, Kota Cirebon<br>
-                                Jawa Barat 45133
+                                Keandra Living, Jalan Damai 6 No.16, Sampiran, Kec. Talun, Kabupaten Cirebon, Jawa Barat
                             </p>
                         </div>
                     </div>
@@ -130,7 +128,7 @@
                         <div class="flex-1">
                             <h3 class="font-bold text-white mb-1">Area Layanan</h3>
                             <p class="text-gray-300">
-                                Cirebon, Indramayu, Majalengka, Kuningan, Brebes, dan sekitarnya
+                                Cirebon
                             </p>
                         </div>
                     </div>
@@ -168,7 +166,7 @@
                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
                             <div class="bg-black/50 backdrop-blur-sm px-4 py-2 rounded-lg border border-amber-500/30">
                                 <p class="text-amber-300 text-sm font-semibold">📍 Lokasi Kantor Kita</p>
-                                <p class="text-gray-400 text-xs">Jl. Sunan Kalijaga No. 123, Cirebon</p>
+                                <p class="text-gray-400 text-xs">Keandra Living, Jalan Damai 6 No.16, Sampiran, Kec. Talun, Kabupaten Cirebon, Jawa Barat</p>
                             </div>
                         </div>
                     </div>
@@ -176,7 +174,7 @@
 
                 {{-- Map Link --}}
                 <div class="mt-4 text-center">
-                    <a href="https://maps.google.com/?q=Jl.+Sunan+Kalijaga+No.+123+Kesambi+Kota+Cirebon"
+                    <a href="Alamat:https://share.google/nxiJaPh8UilK5Mk3g"
                        target="_blank"
                        class="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 border border-amber-500/30">
                         <span>🗺️ Buka di Google Maps</span>
@@ -308,7 +306,7 @@
                         Ada biaya tambahan gak?
                     </h3>
                     <p class="text-gray-300 text-sm pl-8">
-                        Gak ada biaya tambahan yang bikin kaget! Semua harga udah termasuk BBM buat pemakaian dalam kota. Biaya tambahan cuma kalo lo mau keluar kota atau overtime.
+                        Gak ada biaya tambahan sama sekali yaa!
                     </p>
                 </div>
 
@@ -318,7 +316,7 @@
                         Minimal sewa berapa hari?
                     </h3>
                     <p class="text-gray-300 text-sm pl-8">
-                        Minimal sewa 1 hari (24 jam). Kalo sewa harian, overtime dihitung per jam. Ada diskon buat yang sewa 3 hari atau lebih!
+                        Minimal sewa 1 hari (24 jam). Kalo sewa harian, overtime dihitung 10%/jam dari harga sewa!
                     </p>
                 </div>
 
@@ -338,7 +336,7 @@
                         Bisa antar jemput mobil?
                     </h3>
                     <p class="text-gray-300 text-sm pl-8">
-                        Bisa banget! Kita siap anter jemput mobil ke lokasi lo. Biaya disesuain sama jarak lokasinya.
+                        Bisa banget! Kita siap anter jemput free area cirkot, Sumber, Plered, Talun, Kedawung.
                     </p>
                 </div>
             </div>
@@ -353,12 +351,12 @@
             Masih Bingung atau Ada Pertanyaan?
         </h2>
         <p class="text-xl text-white/90 mb-8">
-            Jangan malu-malu, tim kita siap bantu lo kapan aja!
+            Jangan malu-malu, tim kita siap bantu kamu kapan aja!
         </p>
-        <a href="https://wa.me/6281234567890"
+        <a href="https://wa.me/6285601700507"
            class="inline-flex items-center gap-3 bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:scale-105 border border-white">
             <span class="text-xl">💬</span>
-            <span>Gas Chat via WhatsApp Sekarang</span>
+            <span>Chat via WhatsApp Sekarang</span>
         </a>
     </div>
 </section>
