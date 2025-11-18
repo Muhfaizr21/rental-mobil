@@ -77,7 +77,7 @@
                             </div>
                         @else
                             <div class="bg-red-600 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg border border-red-400">
-                                UDAH DISEWA
+                                SEDANG DISEWA
                             </div>
                         @endif
                     </div>
@@ -295,7 +295,7 @@
                     <span class="text-2xl">🛡️</span>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Terjamin & Terpercaya</h3>
-                <p class="text-gray-400">Semua mobil kita cek ketat biar lo jalan dengan tenang</p>
+                <p class="text-gray-400">Semua mobil kita cek ketat biar jalan dengan tenang</p>
             </div>
 
             <div class="text-center p-6">
@@ -303,7 +303,7 @@
                     <span class="text-2xl">💰</span>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Harga Pas di Kantong</h3>
-                <p class="text-gray-400">Harga kompetitif dengan banyak pilihan diskon yang worth it</p>
+                <p class="text-gray-400">Harga kompetitif dengan banyak pilihan yang worth it</p>
             </div>
 
             <div class="text-center p-6">
@@ -311,7 +311,7 @@
                     <span class="text-2xl">🛟</span>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Teman 24 Jam</h3>
-                <p class="text-gray-400">Tim support siap bantu lo kapan aja selama masa rental</p>
+                <p class="text-gray-400">Tim support siap bantu kapan aja selama masa rental</p>
             </div>
         </div>
     </div>

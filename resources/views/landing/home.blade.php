@@ -18,12 +18,12 @@
 
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
                     Sewa Mobil<br>
-                    <span class="bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 bg-clip-text text-transparent">Premium</span>
-                    <span class="text-amber-400">Tanpa Ribet</span>
+
+                    <span class="text-amber-400">Tanpa Perlu Mikir Ribet</span>
                 </h1>
 
                 <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 max-w-xl">
-                    <span class="text-amber-400 font-bold">{{ $stats['total_cars'] ?? '50' }}+ mobil keren</span> siap nemenin perjalanan kalian. Booking cuma 5 menit, gas langsung jalan! 🚗💨
+                    <span class="text-amber-400 font-bold">Rentgoid merupakan sebuah usaha yang bergerak di bidang transportasi yaitu rental mobil. Berbasis di Cirebon, Jawa Barat. </span> "{{ $stats['total_cars'] ?? '50' }}+" mobil keren siap nemenin perjalanan kalian. Booking cuma 5 menit, gas langsung jalan! 🚗💨
                 </p>
 
                 {{-- CTA Buttons --}}
@@ -33,7 +33,7 @@
                         <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                         </svg>
-                        <span class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">🔥 HOT!</span>
+
                     </a>
                     <a href="https://wa.me/6285601700507" class="group bg-gray-800 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:scale-105 border border-gray-600">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -78,7 +78,7 @@
                             </div>
                             <div class="text-center p-4 bg-gray-700/50 rounded-2xl border border-amber-500/10">
                                 <div class="text-4xl font-black bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent mb-2">{{ $stats['total_cars'] ?? '50' }}+</div>
-                                <div class="text-gray-300 text-sm font-medium">Mobil Keren</div>
+                                <div class="text-gray-300 text-sm font-medium">Mobil </div>
                             </div>
                             <div class="text-center p-4 bg-gray-700/50 rounded-2xl border border-amber-500/10">
                                 <div class="text-4xl font-black bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent mb-2">{{ $stats['rating'] ?? '4.9' }}⭐</div>
@@ -109,13 +109,13 @@
         {{-- Section Header --}}
         <div class="text-center mb-16">
             <div class="inline-block bg-amber-500/20 text-amber-300 px-4 py-2 rounded-full text-sm font-bold mb-4 border border-amber-500/30">
-                🚗 PILIH MOBIL FAVORIT LO
+                🚗 PILIH MOBIL FAVORIT KALIAN
             </div>
             <h2 class="text-4xl md:text-5xl font-black text-white mb-4">
                 Armada <span class="text-amber-400">Terlengkap</span> Kami
             </h2>
             <p class="text-gray-400 text-lg max-w-2xl mx-auto">
-                {{ $stats['available_cars'] ?? '45' }}+ mobil siap nemenin adventure lo
+                {{ $stats['available_cars'] ?? '45' }}+ mobil siap nemenin adventure kamu
             </p>
         </div>
 
@@ -298,7 +298,7 @@
                     1
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-3">Pilih Mobil</h3>
-                <p class="text-gray-400 leading-relaxed">Cari yang lo suka, dari yang ekonomis sampai yang premium</p>
+                <p class="text-gray-400 leading-relaxed">Cari yang kalian suka, dari yang ekonomis sampai yang premium</p>
             </div>
 
             {{-- Step 2 --}}
@@ -307,7 +307,7 @@
                     2
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-3">Isi Data & Bayar</h3>
-                <p class="text-gray-400 leading-relaxed">Lengkapi data dan bayar DP atau full, terserah lo</p>
+                <p class="text-gray-400 leading-relaxed">Lengkapi data dan bayar DP atau full</p>
             </div>
 
             {{-- Step 3 --}}
@@ -316,7 +316,7 @@
                     3
                 </div>
                 <h3 class="text-2xl font-bold text-white mb-3">Jalan & Nikmatin!</h3>
-                <p class="text-gray-400 leading-relaxed">Mobil siap, tinggal ambil dan nikmatin perjalanan lo</p>
+                <p class="text-gray-400 leading-relaxed">Mobil siap, tinggal ambil dan nikmatin perjalanan, Enjoyy</p>
             </div>
         </div>
 

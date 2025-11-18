@@ -226,7 +226,7 @@
                         <label class="block text-sm font-semibold text-gray-300 mb-2">Nama Lengkap *</label>
                         <input type="text" name="name" value="{{ old('name') }}" required
                                class="w-full px-4 py-3 bg-gray-700 border-2 border-gray-600 rounded-xl focus:border-amber-500 focus:ring-4 focus:ring-amber-500/20 transition outline-none text-white placeholder-gray-400 @error('name') border-red-500 @enderror"
-                               placeholder="Masukkan nama lo">
+                               placeholder="Masukkan nama anda">
                         @error('name')
                             <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -272,7 +272,7 @@
                         <label class="block text-sm font-semibold text-gray-300 mb-2">Pesan *</label>
                         <textarea name="message" rows="5" required
                                   class="w-full px-4 py-3 bg-gray-700 border-2 border-gray-600 rounded-xl focus:border-amber-500 focus:ring-4 focus:ring-amber-500/20 transition outline-none resize-none text-white placeholder-gray-400 @error('message') border-red-500 @enderror"
-                                  placeholder="Tulis pesan lo di sini...">{{ old('message') }}</textarea>
+                                  placeholder="Tulis pesan sini...">{{ old('message') }}</textarea>
                         @error('message')
                             <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -290,7 +290,7 @@
                     </button>
 
                     <p class="text-sm text-gray-400 text-center">
-                        Atau langsung chat aja via <a href="https://wa.me/6281234567890" class="text-green-400 font-semibold hover:underline">WhatsApp</a> biar lebih cepet!
+                        Atau langsung chat aja via <a href="https://wa.me/6285601700507" class="text-green-400 font-semibold hover:underline">WhatsApp</a> biar lebih cepet!
                     </p>
                 </form>
             </div>
