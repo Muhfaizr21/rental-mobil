@@ -16,7 +16,7 @@
                         <p class="page-subtitle mb-0">Daftarkan kendaraan baru ke dalam sistem</p>
                     </div>
                     <a href="{{ route('admin.cars.index') }}" class="btn-back">
-                        <i class="fas fa-arrow-left me-2">Kembali</i>
+                        <i class="fas fa-arrow-left me-2"></i>Kembali
                     </a>
                 </div>
             </div>
@@ -152,21 +152,12 @@
                                         <label for="color" class="form-label-custom">
                                             <i class="fas fa-palette me-2"></i>Warna
                                         </label>
-                                        <select class="form-select-custom @error('color') is-invalid @enderror"
-                                                id="color"
-                                                name="color">
-                                            <option value="" selected>Pilih warna...</option>
-                                            <option value="White" {{ old('color') == 'White' ? 'selected' : '' }}>Putih</option>
-                                            <option value="Black" {{ old('color') == 'Black' ? 'selected' : '' }}>Hitam</option>
-                                            <option value="Silver" {{ old('color') == 'Silver' ? 'selected' : '' }}>Silver</option>
-                                            <option value="Gray" {{ old('color') == 'Gray' ? 'selected' : '' }}>Abu-abu</option>
-                                            <option value="Red" {{ old('color') == 'Red' ? 'selected' : '' }}>Merah</option>
-                                            <option value="Blue" {{ old('color') == 'Blue' ? 'selected' : '' }}>Biru</option>
-                                            <option value="Green" {{ old('color') == 'Green' ? 'selected' : '' }}>Hijau</option>
-                                            <option value="Yellow" {{ old('color') == 'Yellow' ? 'selected' : '' }}>Kuning</option>
-                                            <option value="Orange" {{ old('color') == 'Orange' ? 'selected' : '' }}>Oranye</option>
-                                            <option value="Brown" {{ old('color') == 'Brown' ? 'selected' : '' }}>Coklat</option>
-                                        </select>
+                                        <input type="text"
+                                               class="form-control-custom @error('color') is-invalid @enderror"
+                                               id="color"
+                                               name="color"
+                                               value="{{ old('color') }}"
+                                               placeholder="Contoh: Putih">
                                         @error('color')
                                             <div class="invalid-feedback-custom">
                                                 <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -184,10 +175,10 @@
                                                 id="fuel_type"
                                                 name="fuel_type">
                                             <option value="" selected>Pilih bahan bakar...</option>
-                                            <option value="Petrol" {{ old('fuel_type') == 'Petrol' ? 'selected' : '' }}>Bensin</option>
-                                            <option value="Diesel" {{ old('fuel_type') == 'Diesel' ? 'selected' : '' }}>Solar</option>
-                                            <option value="Electric" {{ old('fuel_type') == 'Electric' ? 'selected' : '' }}>Listrik</option>
-                                            <option value="Hybrid" {{ old('fuel_type') == 'Hybrid' ? 'selected' : '' }}>Hybrid</option>
+                                            <option value="petrol" {{ old('fuel_type') == 'petrol' ? 'selected' : '' }}>Bensin</option>
+                                            <option value="diesel" {{ old('fuel_type') == 'diesel' ? 'selected' : '' }}>Solar</option>
+                                            <option value="electric" {{ old('fuel_type') == 'electric' ? 'selected' : '' }}>Listrik</option>
+                                            <option value="hybrid" {{ old('fuel_type') == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
                                         </select>
                                         @error('fuel_type')
                                             <div class="invalid-feedback-custom">
@@ -206,9 +197,8 @@
                                                 id="transmission"
                                                 name="transmission">
                                             <option value="" selected>Pilih transmisi...</option>
-                                            <option value="Manual" {{ old('transmission') == 'Manual' ? 'selected' : '' }}>Manual</option>
-                                            <option value="Automatic" {{ old('transmission') == 'Automatic' ? 'selected' : '' }}>Automatic</option>
-                                            <option value="Semi-Automatic" {{ old('transmission') == 'Semi-Automatic' ? 'selected' : '' }}>Semi-Automatic</option>
+                                            <option value="manual" {{ old('transmission') == 'manual' ? 'selected' : '' }}>Manual</option>
+                                            <option value="automatic" {{ old('transmission') == 'automatic' ? 'selected' : '' }}>Automatic</option>
                                         </select>
                                         @error('transmission')
                                             <div class="invalid-feedback-custom">
@@ -223,16 +213,14 @@
                                         <label for="seat_capacity" class="form-label-custom">
                                             <i class="fas fa-users me-2"></i>Kapasitas Kursi
                                         </label>
-                                        <select class="form-select-custom @error('seat_capacity') is-invalid @enderror"
-                                                id="seat_capacity"
-                                                name="seat_capacity">
-                                            <option value="" selected>Pilih kapasitas...</option>
-                                            <option value="2" {{ old('seat_capacity') == '2' ? 'selected' : '' }}>2 Kursi</option>
-                                            <option value="4" {{ old('seat_capacity') == '4' ? 'selected' : '' }}>4 Kursi</option>
-                                            <option value="5" {{ old('seat_capacity') == '5' ? 'selected' : '' }}>5 Kursi</option>
-                                            <option value="7" {{ old('seat_capacity') == '7' ? 'selected' : '' }}>7 Kursi</option>
-                                            <option value="8" {{ old('seat_capacity') == '8' ? 'selected' : '' }}>8 Kursi</option>
-                                        </select>
+                                        <input type="number"
+                                               class="form-control-custom @error('seat_capacity') is-invalid @enderror"
+                                               id="seat_capacity"
+                                               name="seat_capacity"
+                                               value="{{ old('seat_capacity') }}"
+                                               min="1"
+                                               max="20"
+                                               placeholder="Contoh: 5">
                                         @error('seat_capacity')
                                             <div class="invalid-feedback-custom">
                                                 <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -572,22 +560,6 @@
     transform: translateY(-3px);
 }
 
-/* Animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.form-section {
-    animation: fadeInUp 0.5s ease;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .page-header-card > div {
@@ -662,66 +634,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    // Smart brand and model suggestions
-    const brandInput = document.getElementById('brand');
-    const modelInput = document.getElementById('model');
-
-    const carBrands = ['Toyota', 'Honda', 'Mitsubishi', 'Suzuki', 'Daihatsu', 'Nissan', 'Wuling', 'Hyundai', 'Kia', 'Mazda'];
-    const carModels = {
-        'Toyota': ['Avanza', 'Innova', 'Fortuner', 'Calya', 'Rush', 'Agya'],
-        'Honda': ['Brio', 'HR-V', 'CR-V', 'Mobilio', 'City', 'Civic'],
-        'Mitsubishi': ['Xpander', 'Pajero Sport', 'Outlander', 'Triton', 'Mirage'],
-        'Suzuki': ['Ertiga', 'Jimny', 'XL7', 'Baleno', 'Ignis'],
-        'Daihatsu': ['Terios', 'Ayla', 'Xenia', 'Sigra', 'Gran Max'],
-        'Nissan': ['Livina', 'X-Trail', 'March', 'Juke', 'Serena'],
-        'Wuling': ['Cortez', 'Almaz', 'Confero'],
-        'Hyundai': ['Creta', 'Stargazer', 'Santa Fe', 'Ioniq'],
-        'Kia': ['Seltos', 'Sonet', 'Carnival'],
-        'Mazda': ['CX-5', 'CX-3', '2', '3']
-    };
-
-    if (brandInput) {
-        brandInput.addEventListener('input', function() {
-            const value = this.value.toLowerCase();
-            const suggestions = carBrands.filter(brand =>
-                brand.toLowerCase().includes(value)
-            );
-
-            // Auto-complete for exact matches
-            if (suggestions.length === 1 && value.length > 2) {
-                this.value = suggestions[0];
-                updateModelSuggestions(suggestions[0]);
-            }
-        });
-
-        brandInput.addEventListener('blur', function() {
-            updateModelSuggestions(this.value);
-        });
-    }
-
-    function updateModelSuggestions(brand) {
-        if (modelInput && carModels[brand]) {
-            modelInput.setAttribute('placeholder', `Contoh: ${carModels[brand].join(', ')}`);
-        }
-    }
-
-    // Animate sections on scroll
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    });
-
-    document.querySelectorAll('.form-section').forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'all 0.5s ease';
-        observer.observe(section);
-    });
 });
 </script>
 @endsection
