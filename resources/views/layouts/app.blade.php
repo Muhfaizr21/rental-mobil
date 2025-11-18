@@ -7,121 +7,119 @@
     @vite('resources/css/app.css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-black text-white font-inter antialiased">
 
-{{-- NAVBAR DARK GOLD THEME --}}
+{{-- NAVBAR DARK GOLD THEME - FIXED & ENLARGED --}}
 <nav id="navbar" class="fixed top-0 left-0 w-full bg-black/90 backdrop-blur-xl shadow-2xl shadow-amber-500/10 z-50 transition-all duration-500 border-b border-amber-500/20">
-    <div class="max-w-7xl mx-auto px-4 md:px-6">
-        <div class="flex justify-between items-center py-4">
-            {{-- Logo RentGo Style --}}
-          <a href="/" class="flex items-center gap-3 group">
-    <div class="w-12 h-12 transition-transform duration-300 group-hover:scale-110">
-        <img src="{{ asset('assets/logo.jpeg') }}"
-             alt="Rentgo Logo"
-             class="">
-    </div>
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+        <div class="flex justify-between items-center py-5">
+            {{-- Logo di Kiri - LEBIH BESAR --}}
+            <a href="/" class="flex items-center gap-4 group flex-shrink-0">
+                <div class="w-14 h-14 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <img src="{{ asset('assets/logo.jpeg') }}"
+                         alt="Rentgo Logo"
+                         class="w-full h-full object-cover rounded-xl shadow-lg shadow-amber-500/30">
+                </div>
+                <span class="text-3xl font-black tracking-tight">
+                    <span class="bg-gradient-to-r from-yellow-300 via-amber-400 to-orange-500 bg-clip-text text-transparent">
+                        Rentgo
+                    </span>
+                    <span class="text-gray-300">.id</span>
+                </span>
+            </a>
 
-    <span class="text-3xl font-black tracking-tight">
-        <span class="bg-gradient-to-r from-yellow-300 via-amber-400 to-orange-500 bg-clip-text text-transparent">
-            Rentgo
-        </span>
-        <span class="text-gray-300">.id</span>
-    </span>
-</a>
+            {{-- Menu dan CTA di Kanan - LEBIH BESAR --}}
+            <div class="flex items-center gap-8">
+                {{-- Desktop Menu - LEBIH BESAR --}}
+                <div class="hidden lg:flex items-center gap-6">
+                    <a href="/" class="relative group">
+                        <div class="flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-300 group-hover:bg-amber-500/10">
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            <span class="font-semibold text-gray-300 group-hover:text-amber-400 transition-colors text-base">Home</span>
+                        </div>
+                        <div class="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                    </a>
 
+                    <a href="/pricing" class="relative group">
+                        <div class="flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-300 group-hover:bg-amber-500/10">
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
+                            </svg>
+                            <span class="font-semibold text-gray-300 group-hover:text-amber-400 transition-colors text-base">Daftar Mobil</span>
+                        </div>
+                        <div class="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                    </a>
 
+                    <a href="/contact" class="relative group">
+                        <div class="flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-300 group-hover:bg-amber-500/10">
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="font-semibold text-gray-300 group-hover:text-amber-400 transition-colors text-base">Contact</span>
+                        </div>
+                        <div class="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                    </a>
+                </div>
 
+                {{-- CTA Buttons Desktop - LEBIH BESAR --}}
+                <div class="hidden lg:flex items-center gap-3">
+                    <a href="https://wa.me/6285601700507"
+                       class="group relative flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-700 text-white px-5 py-3 rounded-xl font-bold hover:shadow-xl hover:shadow-green-500/30 transition-all duration-300 hover:scale-105 overflow-hidden border border-green-500/30">
+                        <div class="relative z-10 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            <span class="text-sm font-bold">WhatsApp</span>
+                        </div>
+                    </a>
 
-            {{-- Desktop Menu --}}
-            <div class="hidden lg:flex items-center gap-8">
-                <a href="/" class="relative group">
-                    <div class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 group-hover:bg-amber-500/10">
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                        </svg>
-                        <span class="font-semibold text-gray-300 group-hover:text-amber-400 transition-colors">Home</span>
-                    </div>
-                    <div class="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                </a>
+                    <a href="/pricing"
+                       class="group relative flex items-center gap-3 bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-600 text-black px-6 py-3 rounded-xl font-black hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-300 hover:scale-105 overflow-hidden border-2 border-amber-400/50">
+                        <div class="relative z-10 flex items-center gap-2">
+                            <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <span class="text-sm font-black">Book Now</span>
+                        </div>
+                    </a>
+                </div>
 
-                <a href="/pricing" class="relative group">
-                    <div class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 group-hover:bg-amber-500/10">
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
-                        <span class="font-semibold text-gray-300 group-hover:text-amber-400 transition-colors">Daftar Mobil</span>
-                    </div>
-                    <div class="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                </a>
-
-                <a href="/contact" class="relative group">
-                    <div class="flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 group-hover:bg-amber-500/10">
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                        <span class="font-semibold text-gray-300 group-hover:text-amber-400 transition-colors">Contact</span>
-                    </div>
-                    <div class="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-amber-500 to-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                </a>
+                {{-- Mobile Menu Button --}}
+                <button onclick="toggleMenu()" class="lg:hidden p-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 shadow-sm hover:shadow-lg hover:shadow-amber-500/20 transition-all duration-300 group">
+                    <svg id="menuIcon" class="w-6 h-6 text-amber-400 group-hover:text-amber-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="closeIcon" class="w-6 h-6 text-amber-400 group-hover:text-amber-300 transition-colors hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
             </div>
-
-            {{-- CTA Buttons Desktop --}}
-            <div class="hidden lg:flex items-center gap-3">
-                <a href="https://wa.me/6285601700507"
-                   class="group relative flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-700 text-white px-6 py-3 rounded-2xl font-bold hover:shadow-2xl hover:shadow-green-500/40 transition-all duration-500 hover:scale-105 overflow-hidden border border-green-500/30">
-                    <div class="relative z-10 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                        </svg>
-                        <span class="hidden xl:inline">WhatsApp</span>
-                    </div>
-                </a>
-
-                <a href="/pricing"
-                   class="group relative flex items-center gap-3 bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-600 text-black px-7 py-3 rounded-2xl font-black hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-500 hover:scale-105 overflow-hidden border-2 border-amber-400/50">
-                    <div class="relative z-10 flex items-center gap-2">
-                        <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                        <span>Book Now</span>
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-yellow-600 via-orange-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </a>
-            </div>
-
-            {{-- Mobile Menu Button --}}
-            <button onclick="toggleMenu()" class="lg:hidden p-3 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 shadow-sm hover:shadow-lg hover:shadow-amber-500/20 transition-all duration-300 group">
-                <svg id="menuIcon" class="w-6 h-6 text-amber-400 group-hover:text-amber-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-                <svg id="closeIcon" class="w-6 h-6 text-amber-400 group-hover:text-amber-300 transition-colors hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
         </div>
 
         {{-- Mobile Menu --}}
-        <div id="mobileMenu" class="hidden lg:hidden border-t border-amber-500/20 py-6 space-y-2 bg-black/95 backdrop-blur-xl">
-            <a href="/" class="flex items-center gap-4 px-4 py-4 text-gray-300 hover:bg-gradient-to-r hover:from-amber-500/10 hover:to-orange-500/10 hover:text-amber-400 rounded-2xl transition-all duration-300 font-semibold group">
-                <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-400 transition-colors duration-300">
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-amber-500/20 py-4 space-y-2 bg-black/95 backdrop-blur-xl">
+            <a href="/" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gradient-to-r hover:from-amber-500/10 hover:to-orange-500/10 hover:text-amber-400 rounded-xl transition-all duration-300 font-medium group">
+                <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-400 transition-colors duration-300">
                     <svg class="w-5 h-5 text-amber-400 group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
                 </div>
                 <span>Home</span>
             </a>
-            <a href="/pricing" class="flex items-center gap-4 px-4 py-4 text-gray-300 hover:bg-gradient-to-r hover:from-amber-500/10 hover:to-orange-500/10 hover:text-amber-400 rounded-2xl transition-all duration-300 font-semibold group">
-                <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-400 transition-colors duration-300">
+            <a href="/pricing" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gradient-to-r hover:from-amber-500/10 hover:to-orange-500/10 hover:text-amber-400 rounded-xl transition-all duration-300 font-medium group">
+                <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-400 transition-colors duration-300">
                     <svg class="w-5 h-5 text-amber-400 group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
                     </svg>
                 </div>
                 <span>Daftar Mobil</span>
             </a>
-            <a href="/contact" class="flex items-center gap-4 px-4 py-4 text-gray-300 hover:bg-gradient-to-r hover:from-amber-500/10 hover:to-orange-500/10 hover:text-amber-400 rounded-2xl transition-all duration-300 font-semibold group">
-                <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-400 transition-colors duration-300">
+            <a href="/contact" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gradient-to-r hover:from-amber-500/10 hover:to-orange-500/10 hover:text-amber-400 rounded-xl transition-all duration-300 font-medium group">
+                <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-400 transition-colors duration-300">
                     <svg class="w-5 h-5 text-amber-400 group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
@@ -130,16 +128,16 @@
             </a>
 
             {{-- Mobile CTA Buttons --}}
-            <div class="px-4 pt-6 space-y-3 border-t border-amber-500/20 mt-4">
+            <div class="px-4 pt-4 space-y-3 border-t border-amber-500/20 mt-4">
                 <a href="https://wa.me/6285601700507"
-                   class="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-green-600 to-emerald-700 text-white py-4 rounded-2xl font-bold hover:shadow-lg hover:shadow-green-500/30 transition-all duration-300 border border-green-500/30">
+                   class="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-green-600 to-emerald-700 text-white py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-green-500/30 transition-all duration-300 border border-green-500/30">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                     </svg>
                     <span>Chat WhatsApp</span>
                 </a>
                 <a href="/pricing"
-                   class="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-amber-500 to-orange-600 text-black py-4 rounded-2xl font-black hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-300 border-2 border-amber-400/50">
+                   class="flex items-center justify-center gap-3 w-full bg-gradient-to-r from-amber-500 to-orange-600 text-black py-4 rounded-xl font-black hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-300 border-2 border-amber-400/50">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
@@ -190,15 +188,14 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
 </script>
 
 {{-- MAIN CONTENT --}}
-<main class="pt-20">
+<main class="pt-24">
     @yield('content')
 </main>
 
 @include('components.chatbot')
 
-{{-- FOOTER DARK GOLD THEME --}}
+{{-- FOOTER - SAMA SEPERTI SEBELUMNYA --}}
 <footer class="mt-20 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 text-white relative overflow-hidden border-t border-amber-500/20">
-    {{-- Animated Background Particles --}}
     <div class="absolute inset-0 opacity-10">
         <div class="absolute top-20 left-20 w-96 h-96 bg-amber-500 rounded-full filter blur-3xl animate-pulse"></div>
         <div class="absolute top-1/2 right-32 w-80 h-80 bg-orange-600 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 1.5s;"></div>
@@ -207,7 +204,6 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
 
     <div class="max-w-7xl mx-auto px-4 md:px-6 py-16 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
-            {{-- Brand Section --}}
             <div class="lg:col-span-2">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-16 h-16 bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-amber-500/50">
@@ -218,7 +214,7 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
                         </svg>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-4xl font-black tracking-tight font-playfair">
+                        <span class="text-4xl font-black tracking-tight font-montserrat">
                             <span class="bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-500 bg-clip-text text-transparent">rentGo</span>
                             <span class="text-gray-500 text-2xl">.id</span>
                         </span>
@@ -226,59 +222,35 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
                     </div>
                 </div>
                 <p class="text-gray-400 leading-relaxed mb-6 max-w-lg text-lg">
-                    Pengalaman rental mobil premium dengan armada eksklusif, layanan profesional 24/7, dan harga terbaik. Jadikan perjalanan Anda lebih berkesan.
+                    Pengalaman rental mobil premium dengan armada eksklusif, layanan profesional 24/7, dan harga terbaik.
                 </p>
                 <div class="flex gap-4">
-                    <a href="#" class="group w-12 h-12 bg-white/5 hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-700 border border-amber-500/20 hover:border-blue-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-500/30">
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                    </a>
                     <a href="#" class="group w-12 h-12 bg-white/5 hover:bg-gradient-to-br hover:from-pink-600 hover:to-purple-700 border border-amber-500/20 hover:border-pink-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-pink-500/30">
                         <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                         </svg>
                     </a>
-                    <a href="#" class="group w-12 h-12 bg-white/5 hover:bg-gradient-to-br hover:from-blue-400 hover:to-blue-600 border border-amber-500/20 hover:border-blue-400 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-400/30">
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                        </svg>
-                    </a>
                 </div>
             </div>
 
-            {{-- Quick Links --}}
             <div>
                 <h3 class="font-bold text-xl mb-6 bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Menu Utama</h3>
                 <ul class="space-y-4">
-                    <li>
-                        <a href="/" class="group flex items-center gap-3 text-gray-400 hover:text-amber-400 transition-all duration-300 hover:translate-x-2">
-                            <div class="w-2 h-2 bg-amber-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
-                            <span class="font-medium">Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/pricing" class="group flex items-center gap-3 text-gray-400 hover:text-amber-400 transition-all duration-300 hover:translate-x-2">
-                            <div class="w-2 h-2 bg-amber-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
-                            <span class="font-medium">Daftar Mobil</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/contact" class="group flex items-center gap-3 text-gray-400 hover:text-amber-400 transition-all duration-300 hover:translate-x-2">
-                            <div class="w-2 h-2 bg-amber-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
-                            <span class="font-medium">Contact</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/pricing" class="group flex items-center gap-3 text-gray-400 hover:text-amber-400 transition-all duration-300 hover:translate-x-2">
-                            <div class="w-2 h-2 bg-amber-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
-                            <span class="font-medium">Promo Spesial</span>
-                        </a>
-                    </li>
+                    <li><a href="/" class="group flex items-center gap-3 text-gray-400 hover:text-amber-400 transition-all duration-300 hover:translate-x-2">
+                        <div class="w-2 h-2 bg-amber-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
+                        <span class="font-medium">Home</span>
+                    </a></li>
+                    <li><a href="/pricing" class="group flex items-center gap-3 text-gray-400 hover:text-amber-400 transition-all duration-300 hover:translate-x-2">
+                        <div class="w-2 h-2 bg-amber-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
+                        <span class="font-medium">Daftar Mobil</span>
+                    </a></li>
+                    <li><a href="/contact" class="group flex items-center gap-3 text-gray-400 hover:text-amber-400 transition-all duration-300 hover:translate-x-2">
+                        <div class="w-2 h-2 bg-amber-500 rounded-full group-hover:scale-150 transition-transform duration-300"></div>
+                        <span class="font-medium">Contact</span>
+                    </a></li>
                 </ul>
             </div>
 
-            {{-- Contact Info --}}
             <div>
                 <h3 class="font-bold text-xl mb-6 bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent">Hubungi Kami</h3>
                 <ul class="space-y-5">
@@ -291,7 +263,7 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
                         <div class="flex-1">
                             <div class="text-sm text-gray-500 mb-1 font-medium">WhatsApp 24/7</div>
                             <a href="https://wa.me/6285601700507" class="text-white hover:text-green-400 transition-colors font-semibold text-lg">
-                                +62 85601700507
+                                +62 856-0170-0507
                             </a>
                         </div>
                     </li>
@@ -318,8 +290,7 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
                         <div class="flex-1">
                             <div class="text-sm text-gray-500 mb-1 font-medium">Alamat Kantor</div>
                             <p class="text-white leading-relaxed">
-                               Keandra Living</br>
-                                Jalan Damai 6 No.16, Sampiran, Kec. Talun, Kabupaten Cirebon, Jawa Barat
+                                Jl. Flamboyan XIII No D.341 Griya Cempaka Arum Wanasaba Lor Talun - Kab. Cirebon (45171)
                             </p>
                         </div>
                     </li>
@@ -327,14 +298,12 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
             </div>
         </div>
 
-        {{-- Bottom Footer --}}
         <div class="border-t border-amber-500/20 pt-8">
             <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
                 <div class="flex items-center gap-4">
                     <p class="text-gray-500 text-sm">
                         © {{ date('Y') }} <span class="text-amber-400 font-semibold">RentGo.id</span>. All rights reserved.
                     </p>
-
                 </div>
                 <div class="flex items-center gap-6 text-sm">
                     <a href="#" class="text-gray-500 hover:text-amber-400 transition-colors duration-300 font-medium">Privacy Policy</a>
@@ -345,20 +314,17 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
         </div>
     </div>
 
-    {{-- Decorative Elements --}}
     <div class="absolute bottom-10 right-10 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl animate-pulse"></div>
     <div class="absolute top-1/3 left-10 w-20 h-20 bg-orange-500/10 rounded-full blur-2xl animate-pulse" style="animation-delay: 2s;"></div>
 </footer>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
-
 .font-inter {
     font-family: 'Inter', sans-serif;
 }
 
-.font-playfair {
-    font-family: 'Playfair Display', serif;
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif;
 }
 
 .antialiased {
@@ -366,7 +332,6 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar - Dark Theme */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -384,14 +349,12 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
     background: linear-gradient(135deg, #fbbf24, #f59e0b);
 }
 
-/* Smooth transitions */
 * {
     transition-property: color, background-color, border-color, transform, box-shadow, opacity;
     transition-duration: 200ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Gradient animation */
 @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -403,7 +366,6 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
     animation: gradient 3s ease infinite;
 }
 
-/* Floating animation */
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-15px); }
@@ -413,28 +375,21 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
     animation: float 4s ease-in-out infinite;
 }
 
-/* Pulse glow animation */
 @keyframes pulse-glow {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-    }
-    50% {
-        box-shadow: 0 0 40px rgba(245, 158, 11, 0.6);
-    }
+    0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.6); }
 }
 
 .pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Backdrop blur support */
 @supports (backdrop-filter: blur(10px)) {
     .backdrop-blur-xl {
         backdrop-filter: blur(24px);
     }
 }
 
-/* Focus states for accessibility */
 button:focus-visible,
 a:focus-visible {
     outline: 2px solid #f59e0b;
@@ -442,7 +397,6 @@ a:focus-visible {
     border-radius: 8px;
 }
 
-/* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -451,7 +405,6 @@ a:focus-visible {
     }
 }
 
-/* Custom Selection */
 ::selection {
     background-color: #f59e0b;
     color: #000;

@@ -102,7 +102,7 @@
                         <div class="flex-1">
                             <h3 class="font-bold text-white mb-1">Alamat Kantor</h3>
                             <p class="text-gray-300 leading-relaxed">
-                                Keandra Living, Jalan Damai 6 No.16, Sampiran, Kec. Talun, Kabupaten Cirebon, Jawa Barat
+                                Jl. Flamboyan XIII No D.341 Griya Cempaka Arum Wanasaba Lor Talun - Kab. Cirebon (45171)
                             </p>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
                             <div class="bg-black/50 backdrop-blur-sm px-4 py-2 rounded-lg border border-amber-500/30">
                                 <p class="text-amber-300 text-sm font-semibold">📍 Lokasi Kantor Kita</p>
-                                <p class="text-gray-400 text-xs">Keandra Living, Jalan Damai 6 No.16, Sampiran, Kec. Talun, Kabupaten Cirebon, Jawa Barat</p>
+                                <p class="text-gray-400 text-xs">Jl. Flamboyan XIII No D.341 Griya Cempaka Arum Wanasaba Lor Talun - Kab. Cirebon (45171)</p>
                             </div>
                         </div>
                     </div>
