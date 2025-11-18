@@ -20,7 +20,7 @@
                 <div class="w-14 h-14 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                     <img src="{{ asset('assets/logo.jpeg') }}"
                          alt="Rentgo Logo"
-                         class="w-full h-full object-cover rounded-xl shadow-lg shadow-amber-500/30">
+                         class="">
                 </div>
                 <span class="text-3xl font-black tracking-tight">
                     <span class="bg-gradient-to-r from-yellow-300 via-amber-400 to-orange-500 bg-clip-text text-transparent">
@@ -215,7 +215,7 @@ document.querySelectorAll('#mobileMenu a').forEach(link => {
                     </div>
                     <div class="flex flex-col">
                         <span class="text-4xl font-black tracking-tight font-montserrat">
-                            <span class="bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-500 bg-clip-text text-transparent">rentGo</span>
+                            <span class="bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-500 bg-clip-text text-transparent">RentGo</span>
                             <span class="text-gray-500 text-2xl">.id</span>
                         </span>
                         <span class="text-sm text-amber-500 font-medium tracking-widest uppercase mt-1">Premium Rental Service</span>

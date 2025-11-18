@@ -23,7 +23,7 @@
                 </h1>
 
                 <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 max-w-xl">
-                    <span class="text-amber-400 font-bold">Rentgoid merupakan sebuah usaha yang bergerak di bidang transportasi yaitu rental mobil. Berbasis di Cirebon, Jawa Barat. </span> "{{ $stats['total_cars'] ?? '50' }}+" mobil keren siap nemenin perjalanan kalian. Booking cuma 5 menit, gas langsung jalan! 🚗💨
+                    <span class="text-amber-400 font-bold">Rentgoid merupakan sebuah usaha yang bergerak di bidang transportasi yaitu rental mobil. Berbasis di Cirebon, Jawa Barat. </span> "{{ $stats['total_cars'] ?? '50' }}" mobil keren siap nemenin perjalanan kalian. Booking cuma 5 menit, gas langsung jalan! 🚗💨
                 </p>
 
                 {{-- CTA Buttons --}}
