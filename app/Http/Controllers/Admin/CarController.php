@@ -15,20 +15,31 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $cars = Car::latest()->paginate(10);
+public function index()
+{
+    $cars = Car::latest()->paginate(10);
 
-        // Hitung statistik dari seluruh database
-        $stats = Car::selectRaw('
-            COUNT(*) as total,
-            SUM(CASE WHEN status = "available" THEN 1 ELSE 0 END) as available,
-            SUM(CASE WHEN status = "rented" THEN 1 ELSE 0 END) as rented,
-            SUM(CASE WHEN status = "maintenance" THEN 1 ELSE 0 END) as maintenance
-        ')->first();
-
-        return view('admin.cars.index', compact('cars', 'stats'));
+    // DEBUG: Cek storage configuration
+    foreach($cars as $car) {
+        \Log::info("Car {$car->id} Image Debug:", [
+            'image_field' => $car->image,
+            'images_field' => $car->images,
+            'storage_exists' => $car->image ? \Storage::disk('public')->exists($car->image) : false,
+            'public_path_exists' => $car->image ? file_exists(public_path('storage/' . $car->image)) : false,
+            'storage_url' => $car->image ? \Storage::disk('public')->url($car->image) : null,
+            'asset_url' => $car->image ? asset('storage/' . $car->image) : null,
+        ]);
     }
+
+    $stats = Car::selectRaw('
+        COUNT(*) as total,
+        SUM(CASE WHEN status = "available" THEN 1 ELSE 0 END) as available,
+        SUM(CASE WHEN status = "rented" THEN 1 ELSE 0 END) as rented,
+        SUM(CASE WHEN status = "maintenance" THEN 1 ELSE 0 END) as maintenance
+    ')->first();
+
+    return view('admin.cars.index', compact('cars', 'stats'));
+}
 
     /**
      * Show the form for creating a new resource.

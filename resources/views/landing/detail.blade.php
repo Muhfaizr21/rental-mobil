@@ -52,7 +52,6 @@
                         <span>Tahun {{ $car->year }}</span>
                     </div>
 
-
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
@@ -69,30 +68,87 @@
                             <div class="text-4xl font-black">Rp {{ number_format($car->price_per_day, 0, ',', '.') }}</div>
                             <div class="text-sm opacity-90">Sudah termasuk asuransi</div>
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            {{-- Car Image/Icon --}}
+            {{-- Car Image --}}
             <div class="w-full md:w-96">
-                <div class="bg-gradient-to-br from-amber-600 to-amber-700 rounded-3xl p-8 text-center border border-amber-500/30">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-4 border border-white/20">
-                        <svg class="w-32 h-32 mx-auto text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/>
-                            <circle cx="7.5" cy="14.5" r="1.5"/>
-                            <circle cx="16.5" cy="14.5" r="1.5"/>
-                        </svg>
-                    </div>
-                    <div class="text-white text-sm">
-                        <div class="font-semibold text-lg">{{ $car->brand }} {{ $car->model }}</div>
+                @php
+                    $hasImage = false;
+                    $imageUrl = null;
+                    $galleryCount = 0;
 
-                        {{-- Field Baru: Kapasitas Kursi --}}
-                        @if($car->seat_capacity)
-                        <div class="opacity-90 mt-1">{{ $car->seat_capacity }} Kursi • {{ $car->transmission ?? 'Manual' }}</div>
+                    // Cek gambar utama
+                    if ($car->image) {
+                        if (file_exists(public_path('storage/cars/' . $car->image))) {
+                            $imageUrl = url('storage/cars/' . $car->image);
+                            $hasImage = true;
+                        } elseif (file_exists(public_path('storage/' . $car->image))) {
+                            $imageUrl = url('storage/' . $car->image);
+                            $hasImage = true;
+                        }
+                    }
+
+                    // Cek gallery images
+                    if ($car->images) {
+                        $galleryImages = is_string($car->images) ? json_decode($car->images, true) : $car->images;
+                        $galleryCount = is_array($galleryImages) ? count($galleryImages) : 0;
+
+                        // Jika tidak ada gambar utama, ambil dari gallery
+                        if (!$hasImage && $galleryCount > 0) {
+                            $firstImage = $galleryImages[0];
+                            if (file_exists(public_path('storage/cars/gallery/' . $firstImage))) {
+                                $imageUrl = url('storage/cars/gallery/' . $firstImage);
+                                $hasImage = true;
+                            } elseif (file_exists(public_path('storage/' . $firstImage))) {
+                                $imageUrl = url('storage/' . $firstImage);
+                                $hasImage = true;
+                            }
+                        }
+                    }
+                @endphp
+
+                @if($hasImage && $imageUrl)
+                    <div class="bg-gradient-to-br from-amber-600 to-amber-700 rounded-3xl p-4 text-center border border-amber-500/30 overflow-hidden">
+                        <img src="{{ $imageUrl }}"
+                             alt="{{ $car->brand }} {{ $car->model }}"
+                             class="w-full h-64 object-cover rounded-2xl mb-4">
+
+                        @if($galleryCount > 1)
+                        <div class="bg-black/60 backdrop-blur-sm text-white px-3 py-2 rounded-full text-sm font-medium border border-white/20 inline-flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                            </svg>
+                            <span>{{ $galleryCount }} Foto</span>
+                        </div>
                         @endif
+
+                        <div class="text-white text-sm mt-3">
+                            <div class="font-semibold text-lg">{{ $car->brand }} {{ $car->model }}</div>
+                            @if($car->seat_capacity)
+                            <div class="opacity-90 mt-1">{{ $car->seat_capacity }} Kursi • {{ $car->transmission ?? 'Manual' }}</div>
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @else
+                    {{-- Fallback Car Icon --}}
+                    <div class="bg-gradient-to-br from-amber-600 to-amber-700 rounded-3xl p-8 text-center border border-amber-500/30">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-4 border border-white/20">
+                            <svg class="w-32 h-32 mx-auto text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/>
+                                <circle cx="7.5" cy="14.5" r="1.5"/>
+                                <circle cx="16.5" cy="14.5" r="1.5"/>
+                            </svg>
+                        </div>
+                        <div class="text-white text-sm">
+                            <div class="font-semibold text-lg">{{ $car->brand }} {{ $car->model }}</div>
+                            @if($car->seat_capacity)
+                            <div class="opacity-90 mt-1">{{ $car->seat_capacity }} Kursi • {{ $car->transmission ?? 'Manual' }}</div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -148,7 +204,17 @@
                         @endif
 
                         {{-- Field Baru: Warna --}}
-
+                        @if($car->color)
+                        <div class="flex items-center gap-4 p-4 bg-gray-700 rounded-xl border border-amber-500/10 hover:border-amber-500/30 transition">
+                            <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center border border-amber-500/30">
+                                <span class="text-xl">🎨</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white">Warna</div>
+                                <div class="text-sm text-gray-400">{{ $car->color }}</div>
+                            </div>
+                        </div>
+                        @endif
 
                         {{-- Fitur Standar --}}
                         <div class="flex items-center gap-4 p-4 bg-gray-700 rounded-xl border border-amber-500/10 hover:border-amber-500/30 transition">
@@ -243,8 +309,7 @@
                                 <div class="text-2xl font-black">Rp {{ number_format($car->price_per_day, 0, ',', '.') }}/hari</div>
                             </div>
 
-
-                            <a href="https://wa.me/6285601700507?text=Halo,%20saya%20ingin%20booking%20{{ $car->brand }}%20{{ $car->model }}%20%20untuk%20..."
+                            <a href="https://wa.me/6285601700507?text=Halo,%20saya%20ingin%20booking%20{{ $car->brand }}%20{{ $car->model }}%20({{ $car->plate_number }})%20-%20Rp%20{{ number_format($car->price_per_day, 0, ',', '.') }}/hari"
                                class="block w-full bg-white text-amber-600 text-center py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:scale-105 border border-white">
                                 💬 Langsung Chat WhatsApp
                             </a>
@@ -305,6 +370,10 @@
                             <span class="text-gray-400">Tahun</span>
                             <span class="font-semibold text-white">{{ $car->year }}</span>
                         </div>
+                        <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                            <span class="text-gray-400">Plat Nomor</span>
+                            <span class="font-semibold text-white">{{ $car->plate_number }}</span>
+                        </div>
 
                         {{-- Field Baru: Bahan Bakar --}}
                         @if($car->fuel_type)
@@ -325,6 +394,13 @@
                         <div class="flex justify-between items-center py-2 border-b border-gray-700">
                             <span class="text-gray-400">Kapasitas</span>
                             <span class="font-semibold text-white">{{ $car->seat_capacity }} Kursi</span>
+                        </div>
+                        @endif
+                        {{-- Field Baru: Warna --}}
+                        @if($car->color)
+                        <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                            <span class="text-gray-400">Warna</span>
+                            <span class="font-semibold text-white">{{ $car->color }}</span>
                         </div>
                         @endif
                         <div class="flex justify-between items-center py-2">

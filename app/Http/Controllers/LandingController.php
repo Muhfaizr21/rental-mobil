@@ -31,7 +31,7 @@ class LandingController extends Controller
 
             // Ambil 3 mobil terpopuler untuk featured section
             $featuredCars = Car::where('status', 'available')
-                ->select(['id', 'brand', 'model', 'price_per_day', 'color', 'year', 'fuel_type'])
+                ->select(['id', 'brand', 'model', 'price_per_day', 'color', 'year', 'fuel_type', 'image', 'images'])
                 ->orderBy('created_at', 'desc')
                 ->take(3)
                 ->get();
@@ -67,10 +67,11 @@ class LandingController extends Controller
             $sortField = $this->validateSortField($request->sort);
             $query = $this->applySecureSorting($query, $sortField);
 
-            // Pagination dengan limit - sesuaikan field dengan database
+            // Pagination dengan limit - TAMBAHKAN field image dan images
             $cars = $query->select([
                     'id', 'brand', 'model', 'price_per_day', 'color',
-                    'year', 'fuel_type', 'transmission', 'seat_capacity', 'plate_number', 'status'
+                    'year', 'fuel_type', 'transmission', 'seat_capacity',
+                    'plate_number', 'status', 'image', 'images' // TAMBAH INI
                 ])
                 ->paginate(12)
                 ->appends($request->except('page'));
@@ -86,7 +87,7 @@ class LandingController extends Controller
 
             // Fallback tanpa search/filter jika error
             $cars = Car::where('status', 'available')
-                ->select(['id', 'brand', 'model', 'price_per_day', 'color', 'year', 'fuel_type', 'status'])
+                ->select(['id', 'brand', 'model', 'price_per_day', 'color', 'year', 'fuel_type', 'status', 'image', 'images'])
                 ->latest()
                 ->paginate(12);
 
@@ -102,7 +103,8 @@ class LandingController extends Controller
             $query = Car::whereNull('deleted_at') // Hanya mobil yang tidak dihapus
                 ->select([
                     'id', 'brand', 'model', 'price_per_day', 'color',
-                    'year', 'fuel_type', 'transmission', 'seat_capacity', 'plate_number', 'status'
+                    'year', 'fuel_type', 'transmission', 'seat_capacity',
+                    'plate_number', 'status', 'image', 'images' // TAMBAH INI
                 ]);
 
             // Sanitized search
@@ -140,7 +142,8 @@ class LandingController extends Controller
             $cars = Car::whereNull('deleted_at')
                 ->select([
                     'id', 'brand', 'model', 'price_per_day', 'color',
-                    'year', 'fuel_type', 'transmission', 'seat_capacity', 'plate_number', 'status'
+                    'year', 'fuel_type', 'transmission', 'seat_capacity',
+                    'plate_number', 'status', 'image', 'images' // TAMBAH INI
                 ])
                 ->orderBy('price_per_day', 'asc')
                 ->paginate(12);
@@ -164,7 +167,7 @@ class LandingController extends Controller
             $car = Car::whereNull('deleted_at')
                 ->select([
                     'id', 'brand', 'model', 'price_per_day', 'color', 'year', 'fuel_type',
-                    'transmission', 'seat_capacity', 'plate_number', 'status'
+                    'transmission', 'seat_capacity', 'plate_number', 'status', 'image', 'images' // TAMBAH INI
                 ])
                 ->findOrFail($id);
 
@@ -172,7 +175,7 @@ class LandingController extends Controller
             $relatedCars = Car::where('brand', $car->brand)
                 ->where('id', '!=', $car->id)
                 ->where('status', 'available') // Hanya yang available untuk related
-                ->select(['id', 'brand', 'model', 'price_per_day', 'color', 'year', 'status'])
+                ->select(['id', 'brand', 'model', 'price_per_day', 'color', 'year', 'status', 'image', 'images']) // TAMBAH INI
                 ->inRandomOrder()
                 ->limit(3)
                 ->get();

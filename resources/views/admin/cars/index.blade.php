@@ -135,32 +135,47 @@
                             <td>
                                 <div class="row-number">{{ $loop->iteration + ($cars->currentPage() - 1) * $cars->perPage() }}</div>
                             </td>
-                            <td>
-                                <div class="car-image-container">
-                                    @if($car->image)
-                                        <img src="{{ Storage::disk('public')->url($car->image) }}" 
-                                             alt="{{ $car->brand }} {{ $car->model }}" 
-                                             class="car-image"
-                                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA4MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik00MCAyMEM0My4zMTM3IDIwIDQ2IDIyLjY4NjMgNDYgMjZDNDYgMjkuMzEzNyA0My4zMTM3IDMyIDQwIDMyQzM2LjY4NjMgMzIgMzQgMjkuMzEzNyAzNCAyNkMzNCAyMi42ODYzIDM2LjY4NjMgMjAgNDAgMjBaIiBmaWxsPSIjOTRBM0I4Ii8+CjxwYXRoIGQ9Ik01MiA0MEgyOEMyNi44OTU0IDQwIDI2IDM5LjEwNDYgMjYgMzhWMjJDMjYgMjAuODk1NCAyNi44OTU0IDIwIDI4IDIwSDUyQzUzLjEwNDYgMjAgNTQgMjAuODk1NCA1NCAyMlYzOEM1NCAzOS4xMDQ2IDUzLjEwNDYgNDAgNTIgNDBaIiBmaWxsPSIjOTRBM0I4Ii8+Cjwvc3ZnPgo='">
-                                        @if($car->images && count($car->images) > 0)
-                                            <div class="gallery-badge" title="{{ count($car->images) }} gambar tambahan">
-                                                <i class="fas fa-images"></i>
-                                                <span>{{ count($car->images) }}</span>
-                                            </div>
-                                        @endif
-                                    @else
-                                        <div class="car-image-placeholder">
-                                            <i class="fas fa-car-side"></i>
-                                            <span>No Image</span>
-                                        </div>
-                                    @endif
-                                </div>
-                            </td>
+<td>
+    <div class="car-image-container">
+        @if($car->image)
+            {{-- Gunakan approach yang sama seperti di show blade --}}
+            @if(file_exists(public_path('storage/cars/' . $car->image)))
+                <img src="{{ url('storage/cars/' . $car->image) }}"
+                     alt="{{ $car->brand }} {{ $car->model }}"
+                     class="car-image">
+            @elseif(file_exists(public_path('storage/' . $car->image)))
+                <img src="{{ url('storage/' . $car->image) }}"
+                     alt="{{ $car->brand }} {{ $car->model }}"
+                     class="car-image">
+            @else
+                {{-- Fallback seperti di show --}}
+                <div class="car-image-placeholder">
+                    <i class="fas fa-car-side"></i>
+                    <span>No Image</span>
+                </div>
+            @endif
+
+            {{-- Gallery badge --}}
+            @if($car->images && count($car->images) > 0)
+                <div class="gallery-badge" title="{{ count($car->images) }} gambar tambahan">
+                    <i class="fas fa-images"></i>
+                    <span>{{ count($car->images) }}</span>
+                </div>
+            @endif
+        @else
+            <div class="car-image-placeholder">
+                <i class="fas fa-car-side"></i>
+                <span>No Image</span>
+            </div>
+        @endif
+    </div>
+</td>
                             <td>
                                 <div class="car-info">
                                     <div class="car-brand">{{ $car->brand }}</div>
                                     <div class="car-model">{{ $car->model }}</div>
                                     <div class="car-year">{{ $car->year }}</div>
+                                    <div class="car-plate">{{ $car->plate_number }}</div>
                                 </div>
                             </td>
                             <td>
@@ -178,7 +193,7 @@
                                                     @case('diesel') Solar @break
                                                     @case('electric') Listrik @break
                                                     @case('hybrid') Hybrid @break
-                                                    @default {{ $car->fuel_type }}
+                                                    @default {{ ucfirst($car->fuel_type) }}
                                                 @endswitch
                                             @else
                                                 -
@@ -192,7 +207,7 @@
                                                 @switch($car->transmission)
                                                     @case('manual') Manual @break
                                                     @case('automatic') Automatic @break
-                                                    @default {{ $car->transmission }}
+                                                    @default {{ ucfirst($car->transmission) }}
                                                 @endswitch
                                             @else
                                                 -
@@ -673,6 +688,17 @@
     font-weight: 600;
 }
 
+.car-plate {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+    text-align: center;
+}
+
 .car-details {
     display: flex;
     flex-direction: column;
@@ -690,18 +716,6 @@
 .detail-item i {
     width: 16px;
     color: #1e3c72;
-}
-
-.plate-badge {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-weight: 700;
-    color: #1a1b2e;
-    border: 2px solid #e5e7eb;
-    display: inline-block;
-    min-width: 100px;
-    text-align: center;
 }
 
 .price-tag {
@@ -973,14 +987,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 50 + 300);
     });
 });
-
-// Image error handling
-function handleImageError(img) {
-    img.style.display = 'none';
-    const placeholder = document.createElement('div');
-    placeholder.className = 'car-image-placeholder';
-    placeholder.innerHTML = '<i class="fas fa-car-side"></i><span>No Image</span>';
-    img.parentNode.appendChild(placeholder);
-}
 </script>
 @endsection
