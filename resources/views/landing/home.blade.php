@@ -73,8 +73,8 @@
                     <div class="bg-gray-800/80 backdrop-blur-xl rounded-3xl p-8 border border-amber-500/20 shadow-2xl">
                         <div class="grid grid-cols-2 gap-6">
                             <div class="text-center p-4 bg-gray-700/50 rounded-2xl border border-amber-500/10">
-                                <div class="text-4xl font-black bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent mb-2">{{ $stats['total_customers'] ?? '1000' }}+</div>
-                                <div class="text-gray-300 text-sm font-medium">Teman Setia</div>
+                                <div class="text-4xl font-black bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent mb-2">500+</div>
+                                <div class="text-gray-300 text-sm font-medium">Pelanggan</div>
                             </div>
                             <div class="text-center p-4 bg-gray-700/50 rounded-2xl border border-amber-500/10">
                                 <div class="text-4xl font-black bg-gradient-to-r from-amber-300 to-amber-400 bg-clip-text text-transparent mb-2">{{ $stats['total_cars'] ?? '50' }}+</div>

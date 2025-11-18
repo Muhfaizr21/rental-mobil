@@ -165,17 +165,6 @@
                     <h2 class="text-2xl font-black text-white mb-6">🛠️ Fitur & Spesifikasi</h2>
                     <div class="grid md:grid-cols-2 gap-6">
                         {{-- Field Baru: Bahan Bakar --}}
-                        @if($car->fuel_type)
-                        <div class="flex items-center gap-4 p-4 bg-gray-700 rounded-xl border border-amber-500/10 hover:border-amber-500/30 transition">
-                            <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center border border-amber-500/30">
-                                <span class="text-xl">⛽</span>
-                            </div>
-                            <div>
-                                <div class="font-semibold text-white">Bahan Bakar</div>
-                                <div class="text-sm text-gray-400">{{ $car->fuel_type }}</div>
-                            </div>
-                        </div>
-                        @endif
 
                         {{-- Field Baru: Transmisi --}}
                         @if($car->transmission)
@@ -203,18 +192,7 @@
                         </div>
                         @endif
 
-                        {{-- Field Baru: Warna --}}
-                        @if($car->color)
-                        <div class="flex items-center gap-4 p-4 bg-gray-700 rounded-xl border border-amber-500/10 hover:border-amber-500/30 transition">
-                            <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center border border-amber-500/30">
-                                <span class="text-xl">🎨</span>
-                            </div>
-                            <div>
-                                <div class="font-semibold text-white">Warna</div>
-                                <div class="text-sm text-gray-400">{{ $car->color }}</div>
-                            </div>
-                        </div>
-                        @endif
+
 
                         {{-- Fitur Standar --}}
                         <div class="flex items-center gap-4 p-4 bg-gray-700 rounded-xl border border-amber-500/10 hover:border-amber-500/30 transition">
@@ -370,18 +348,9 @@
                             <span class="text-gray-400">Tahun</span>
                             <span class="font-semibold text-white">{{ $car->year }}</span>
                         </div>
-                        <div class="flex justify-between items-center py-2 border-b border-gray-700">
-                            <span class="text-gray-400">Plat Nomor</span>
-                            <span class="font-semibold text-white">{{ $car->plate_number }}</span>
-                        </div>
 
-                        {{-- Field Baru: Bahan Bakar --}}
-                        @if($car->fuel_type)
-                        <div class="flex justify-between items-center py-2 border-b border-gray-700">
-                            <span class="text-gray-400">Bahan Bakar</span>
-                            <span class="font-semibold text-white">{{ $car->fuel_type }}</span>
-                        </div>
-                        @endif
+
+
                         {{-- Field Baru: Transmisi --}}
                         @if($car->transmission)
                         <div class="flex justify-between items-center py-2 border-b border-gray-700">
@@ -397,12 +366,7 @@
                         </div>
                         @endif
                         {{-- Field Baru: Warna --}}
-                        @if($car->color)
-                        <div class="flex justify-between items-center py-2 border-b border-gray-700">
-                            <span class="text-gray-400">Warna</span>
-                            <span class="font-semibold text-white">{{ $car->color }}</span>
-                        </div>
-                        @endif
+
                         <div class="flex justify-between items-center py-2">
                             <span class="text-gray-400">Status</span>
                             <span class="font-semibold {{ $car->status == 'available' ? 'text-green-400' : ($car->status == 'maintenance' ? 'text-yellow-400' : 'text-red-400') }}">

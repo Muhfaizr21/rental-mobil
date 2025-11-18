@@ -175,7 +175,7 @@
                                     <div class="car-brand">{{ $car->brand }}</div>
                                     <div class="car-model">{{ $car->model }}</div>
                                     <div class="car-year">{{ $car->year }}</div>
-                                    <div class="car-plate">{{ $car->plate_number }}</div>
+
                                 </div>
                             </td>
                             <td>

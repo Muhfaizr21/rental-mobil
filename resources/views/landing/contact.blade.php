@@ -121,7 +121,8 @@
                             <div class="flex-1">
                                 <h3 class="font-bold text-white mb-1 text-sm md:text-base">Alamat Kantor</h3>
                                 <p class="text-gray-300 leading-relaxed text-sm md:text-base">
-                                    Jl. Flamboyan XIII No D.341 Griya Cempaka Arum Wanasaba Lor Talun - Kab. Cirebon (45171)
+                                    - Jl. Flamboyan XIII No D.341 Griya Cempaka Arum Wanasaba Lor Talun - Kab. Cirebon (45171) <br>
+                                    - Jl. Ki Sulaeman Blok Gembulu RT.003 RW.002 Deda Megu Cilik, Weru, Kab Cirebon
                                 </p>
                             </div>
                         </div>
@@ -135,8 +136,6 @@
                             <div class="flex-1">
                                 <h3 class="font-bold text-white mb-1 text-sm md:text-base">Jam Operasional</h3>
                                 <p class="text-gray-300 text-sm md:text-base">
-                                    Senin - Sabtu: 08.00 - 20.00 WIB<br>
-                                    Minggu: 09.00 - 18.00 WIB<br>
                                     <span class="text-green-400 font-semibold mt-1 inline-block text-sm md:text-base">📱 CS
                                         24/7 via WhatsApp!</span>
                                 </p>

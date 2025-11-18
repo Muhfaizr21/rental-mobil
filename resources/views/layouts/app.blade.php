@@ -298,9 +298,23 @@ document.addEventListener('DOMContentLoaded', function() {
                             </svg>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="text-xs md:text-sm text-gray-500 mb-1 font-medium">Alamat Kantor</div>
+                            <div class="text-xs md:text-sm text-gray-500 mb-1 font-medium">Alamat Kantor 1</div>
                             <p class="text-white leading-relaxed text-sm md:text-base">
                                 Jl. Flamboyan XIII No D.341 Griya Cempaka Arum Wanasaba Lor Talun - Kab. Cirebon (45171)
+                            </p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3 md:gap-4 group cursor-pointer">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-amber-500/20 border border-amber-500/30 rounded-xl flex items-center justify-center group-hover:bg-amber-500 group-hover:border-amber-400 transition-colors duration-300 flex-shrink-0">
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-amber-400 group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-xs md:text-sm text-gray-500 mb-1 font-medium">Alamat Kantor 2</div>
+                            <p class="text-white leading-relaxed text-sm md:text-base">
+                                Jl. Ki Sulaeman Blok Gembulu RT.003 RW.002 Deda Megu Cilik, Weru, Kab Cirebon
                             </p>
                         </div>
                     </li>
@@ -366,11 +380,11 @@ document.addEventListener('DOMContentLoaded', function() {
     .hover\\:scale-105:hover {
         transform: none;
     }
-    
+
     .hover\\:shadow-lg:hover {
         box-shadow: none;
     }
-    
+
     .group:hover .group-hover\\:scale-110 {
         transform: none;
     }
@@ -391,13 +405,13 @@ a:focus-visible {
         overflow-x: hidden;
         width: 100%;
     }
-    
+
     /* Improve tap targets */
     button, a {
         min-height: 44px;
         min-width: 44px;
     }
-    
+
     /* Optimize text readability */
     p, span, div {
         word-wrap: break-word;
@@ -430,7 +444,7 @@ a:focus-visible {
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
     }
-    
+
     /* Fix for Safari height issues */
     .h-screen {
         height: 100vh;

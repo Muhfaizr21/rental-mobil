@@ -158,14 +158,19 @@
                                             <select class="form-select-custom @error('fuel_type') is-invalid @enderror"
                                                 id="fuel_type" name="fuel_type">
                                                 <option value="" selected>Pilih bahan bakar...</option>
-                                                <option value="petrol" {{ old('fuel_type') == 'petrol' ? 'selected' : '' }}>
-                                                    Bensin</option>
-                                                <option value="diesel" {{ old('fuel_type') == 'diesel' ? 'selected' : '' }}>
-                                                    Solar</option>
-                                                <option value="electric"
-                                                    {{ old('fuel_type') == 'electric' ? 'selected' : '' }}>Listrik</option>
+                                                <!-- PERBAIKAN: Ubah value menjadi bahasa Indonesia -->
+                                                <option value="bensin" {{ old('fuel_type') == 'bensin' ? 'selected' : '' }}>
+                                                    Bensin
+                                                </option>
+                                                <option value="solar" {{ old('fuel_type') == 'solar' ? 'selected' : '' }}>
+                                                    Solar
+                                                </option>
+                                                <option value="listrik" {{ old('fuel_type') == 'listrik' ? 'selected' : '' }}>
+                                                    Listrik
+                                                </option>
                                                 <option value="hybrid" {{ old('fuel_type') == 'hybrid' ? 'selected' : '' }}>
-                                                    Hybrid</option>
+                                                    Hybrid
+                                                </option>
                                             </select>
                                             @error('fuel_type')
                                                 <div class="invalid-feedback-custom">

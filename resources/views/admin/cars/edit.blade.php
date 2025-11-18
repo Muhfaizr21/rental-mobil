@@ -24,22 +24,6 @@
             </div>
         </div>
 
-        <!-- Info Banner -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="info-banner">
-                    <div class="info-icon">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div>
-                        <h6 class="mb-1">Informasi</h6>
-                        <p class="mb-0">Pastikan semua data diisi dengan benar. Perubahan akan langsung berlaku setelah
-                            disimpan.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Form Card -->
         <div class="row">
             <div class="col-12">
@@ -155,49 +139,16 @@
                                         </div>
                                     </div>
 
-                                    <!-- PERBAIKAN: Ubah value option menjadi lowercase -->
+                                    <!-- PERBAIKAN: Selaraskan dengan create form -->
                                     <div class="col-md-3">
                                         <div class="form-group-custom">
                                             <label for="color" class="form-label-custom">
                                                 <i class="fas fa-palette me-2"></i>Warna
                                             </label>
-                                            <select class="form-select-custom @error('color') is-invalid @enderror"
-                                                id="color" name="color">
-                                                <option value="">Pilih warna...</option>
-                                                <option value="White"
-                                                    {{ old('color', $car->color) == 'White' ? 'selected' : '' }}>Putih
-                                                </option>
-                                                <option value="Black"
-                                                    {{ old('color', $car->color) == 'Black' ? 'selected' : '' }}>Hitam
-                                                </option>
-                                                <option value="Silver"
-                                                    {{ old('color', $car->color) == 'Silver' ? 'selected' : '' }}>Silver
-                                                </option>
-                                                <option value="Gray"
-                                                    {{ old('color', $car->color) == 'Gray' ? 'selected' : '' }}>Abu-abu
-                                                </option>
-                                                <option value="Red"
-                                                    {{ old('color', $car->color) == 'Red' ? 'selected' : '' }}>Merah
-                                                </option>
-                                                <option value="Blue"
-                                                    {{ old('color', $car->color) == 'Blue' ? 'selected' : '' }}>Biru
-                                                </option>
-                                                <option value="Green"
-                                                    {{ old('color', $car->color) == 'Green' ? 'selected' : '' }}>Hijau
-                                                </option>
-                                                <option value="Yellow"
-                                                    {{ old('color', $car->color) == 'Yellow' ? 'selected' : '' }}>Kuning
-                                                </option>
-                                                <option value="Orange"
-                                                    {{ old('color', $car->color) == 'Orange' ? 'selected' : '' }}>Oranye
-                                                </option>
-                                                <option value="Brown"
-                                                    {{ old('color', $car->color) == 'Brown' ? 'selected' : '' }}>Coklat
-                                                </option>
-                                            </select>
-                                            <small class="form-text-muted">
-                                                Saat ini: <strong>{{ $car->color ?? '-' }}</strong>
-                                            </small>
+                                            <input type="text"
+                                                class="form-control-custom @error('color') is-invalid @enderror" id="color"
+                                                name="color" value="{{ old('color', $car->color) }}"
+                                                placeholder="Contoh: Putih">
                                             @error('color')
                                                 <div class="invalid-feedback-custom">
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -214,30 +165,20 @@
                                             <select class="form-select-custom @error('fuel_type') is-invalid @enderror"
                                                 id="fuel_type" name="fuel_type">
                                                 <option value="">Pilih bahan bakar...</option>
-                                                <!-- PERBAIKAN: Ubah value menjadi lowercase -->
-                                                <option value="petrol"
-                                                    {{ old('fuel_type', $car->fuel_type) == 'petrol' ? 'selected' : '' }}>
-                                                    Bensin</option>
-                                                <option value="diesel"
-                                                    {{ old('fuel_type', $car->fuel_type) == 'diesel' ? 'selected' : '' }}>
-                                                    Solar</option>
-                                                <option value="electric"
-                                                    {{ old('fuel_type', $car->fuel_type) == 'electric' ? 'selected' : '' }}>
-                                                    Listrik</option>
-                                                <option value="hybrid"
-                                                    {{ old('fuel_type', $car->fuel_type) == 'hybrid' ? 'selected' : '' }}>
-                                                    Hybrid</option>
+                                                <!-- PERBAIKAN: Gunakan value yang sama dengan create form -->
+                                                <option value="bensin" {{ old('fuel_type', $car->fuel_type) == 'bensin' ? 'selected' : '' }}>
+                                                    Bensin
+                                                </option>
+                                                <option value="solar" {{ old('fuel_type', $car->fuel_type) == 'solar' ? 'selected' : '' }}>
+                                                    Solar
+                                                </option>
+                                                <option value="listrik" {{ old('fuel_type', $car->fuel_type) == 'listrik' ? 'selected' : '' }}>
+                                                    Listrik
+                                                </option>
+                                                <option value="hybrid" {{ old('fuel_type', $car->fuel_type) == 'hybrid' ? 'selected' : '' }}>
+                                                    Hybrid
+                                                </option>
                                             </select>
-                                            <small class="form-text-muted">
-                                                Saat ini: <strong>
-                                                    @if($car->fuel_type == 'petrol') Bensin
-                                                    @elseif($car->fuel_type == 'diesel') Solar
-                                                    @elseif($car->fuel_type == 'electric') Listrik
-                                                    @elseif($car->fuel_type == 'hybrid') Hybrid
-                                                    @else -
-                                                    @endif
-                                                </strong>
-                                            </small>
                                             @error('fuel_type')
                                                 <div class="invalid-feedback-custom">
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -254,22 +195,13 @@
                                             <select class="form-select-custom @error('transmission') is-invalid @enderror"
                                                 id="transmission" name="transmission">
                                                 <option value="">Pilih transmisi...</option>
-                                                <!-- PERBAIKAN: Sesuaikan dengan controller -->
-                                                <option value="manual"
-                                                    {{ old('transmission', $car->transmission) == 'manual' ? 'selected' : '' }}>
-                                                    Manual</option>
-                                                <option value="automatic"
-                                                    {{ old('transmission', $car->transmission) == 'automatic' ? 'selected' : '' }}>
-                                                    Automatic</option>
+                                                <option value="manual" {{ old('transmission', $car->transmission) == 'manual' ? 'selected' : '' }}>
+                                                    Manual
+                                                </option>
+                                                <option value="automatic" {{ old('transmission', $car->transmission) == 'automatic' ? 'selected' : '' }}>
+                                                    Automatic
+                                                </option>
                                             </select>
-                                            <small class="form-text-muted">
-                                                Saat ini: <strong>
-                                                    @if($car->transmission == 'manual') Manual
-                                                    @elseif($car->transmission == 'automatic') Automatic
-                                                    @else -
-                                                    @endif
-                                                </strong>
-                                            </small>
                                             @error('transmission')
                                                 <div class="invalid-feedback-custom">
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -283,29 +215,10 @@
                                             <label for="seat_capacity" class="form-label-custom">
                                                 <i class="fas fa-users me-2"></i>Kapasitas Kursi
                                             </label>
-                                            <select class="form-select-custom @error('seat_capacity') is-invalid @enderror"
-                                                id="seat_capacity" name="seat_capacity">
-                                                <option value="">Pilih kapasitas...</option>
-                                                <option value="2"
-                                                    {{ old('seat_capacity', $car->seat_capacity) == '2' ? 'selected' : '' }}>
-                                                    2 Kursi</option>
-                                                <option value="4"
-                                                    {{ old('seat_capacity', $car->seat_capacity) == '4' ? 'selected' : '' }}>
-                                                    4 Kursi</option>
-                                                <option value="5"
-                                                    {{ old('seat_capacity', $car->seat_capacity) == '5' ? 'selected' : '' }}>
-                                                    5 Kursi</option>
-                                                <option value="7"
-                                                    {{ old('seat_capacity', $car->seat_capacity) == '7' ? 'selected' : '' }}>
-                                                    7 Kursi</option>
-                                                <option value="8"
-                                                    {{ old('seat_capacity', $car->seat_capacity) == '8' ? 'selected' : '' }}>
-                                                    8 Kursi</option>
-                                            </select>
-                                            <small class="form-text-muted">
-                                                Saat ini:
-                                                <strong>{{ $car->seat_capacity ? $car->seat_capacity . ' Kursi' : '-' }}</strong>
-                                            </small>
+                                            <input type="number"
+                                                class="form-control-custom @error('seat_capacity') is-invalid @enderror"
+                                                id="seat_capacity" name="seat_capacity" value="{{ old('seat_capacity', $car->seat_capacity) }}"
+                                                min="1" max="20" placeholder="Contoh: 5">
                                             @error('seat_capacity')
                                                 <div class="invalid-feedback-custom">
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -447,10 +360,6 @@
                                                     value="{{ old('price_per_day', $car->price_per_day) }}" min="0"
                                                     step="1000" placeholder="300000" required>
                                             </div>
-                                            <small class="form-text-muted">
-                                                Harga saat ini: <strong>Rp
-                                                    {{ number_format($car->price_per_day, 0, ',', '.') }}</strong>
-                                            </small>
                                             @error('price_per_day')
                                                 <div class="invalid-feedback-custom">
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -480,14 +389,6 @@
                                                     🔧 Maintenance
                                                 </option>
                                             </select>
-                                            <small class="form-text-muted">
-                                                Status saat ini: <strong class="status-{{ $car->status }}">
-                                                    @if($car->status == 'available') ✓ Tersedia
-                                                    @elseif($car->status == 'rented') ⏱ Sedang Disewa
-                                                    @else 🔧 Maintenance
-                                                    @endif
-                                                </strong>
-                                            </small>
                                             @error('status')
                                                 <div class="invalid-feedback-custom">
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -498,23 +399,11 @@
                                 </div>
                             </div>
 
-                            <!-- Change Summary -->
-                            <div class="change-summary" id="changeSummary" style="display: none;">
-                                <div class="summary-header">
-                                    <i class="fas fa-history me-2"></i>
-                                    <h6 class="mb-0">Perubahan Terdeteksi</h6>
-                                </div>
-                                <div class="summary-content" id="summaryContent"></div>
-                            </div>
-
                             <!-- Action Buttons -->
                             <div class="form-actions">
                                 <button type="submit" class="btn-submit">
                                     <i class="fas fa-save me-2"></i>Update Mobil
                                 </button>
-                                <a href="{{ route('admin.cars.show', $car) }}" class="btn-info">
-                                    <i class="fas fa-eye me-2"></i>Lihat Detail
-                                </a>
                                 <a href="{{ route('admin.cars.index') }}" class="btn-cancel">
                                     <i class="fas fa-times me-2"></i>Batal
                                 </a>
@@ -580,39 +469,6 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             color: #764ba2;
-        }
-
-        /* Info Banner */
-        .info-banner {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            padding: 1.5rem;
-            border-radius: 15px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.3);
-        }
-
-        .info-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .info-banner h6 {
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .info-banner p {
-            margin: 0;
-            opacity: 0.95;
         }
 
         /* Card Custom */
@@ -762,18 +618,6 @@
             margin-top: 0.5rem;
             color: #64748b;
             font-size: 0.875rem;
-        }
-
-        .status-available {
-            color: #22c55e;
-        }
-
-        .status-rented {
-            color: #f59e0b;
-        }
-
-        .status-maintenance {
-            color: #ef4444;
         }
 
         /* Invalid Feedback */
@@ -948,40 +792,6 @@
             object-fit: cover;
         }
 
-        /* Change Summary */
-        .change-summary {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid #f59e0b;
-        }
-
-        .summary-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .summary-header h6 {
-            font-weight: 700;
-            color: #92400e;
-        }
-
-        .summary-content {
-            font-size: 0.9rem;
-            color: #78350f;
-        }
-
-        .summary-content ul {
-            margin: 0;
-            padding-left: 1.5rem;
-        }
-
-        .summary-content li {
-            margin-bottom: 0.25rem;
-        }
-
         /* Form Actions */
         .form-actions {
             display: flex;
@@ -1009,27 +819,6 @@
         .btn-submit:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-info {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            border: none;
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .btn-info:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
-            color: white;
         }
 
         .btn-cancel {
@@ -1078,7 +867,6 @@
             }
 
             .btn-submit,
-            .btn-info,
             .btn-cancel {
                 width: 100%;
                 justify-content: center;
@@ -1119,128 +907,6 @@
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Original values
-            const originalValues = {
-                brand: '{{ $car->brand }}',
-                model: '{{ $car->model }}',
-                plate_number: '{{ $car->plate_number }}',
-                year: '{{ $car->year }}',
-                color: '{{ $car->color }}',
-                fuel_type: '{{ $car->fuel_type }}',
-                transmission: '{{ $car->transmission }}',
-                seat_capacity: '{{ $car->seat_capacity }}',
-                price_per_day: '{{ $car->price_per_day }}',
-                status: '{{ $car->status }}',
-                image: '{{ $car->image }}',
-                images: {{ $car->images ? json_encode($car->images) : '[]' }}
-        };
-
-            // Field name mapping
-            const fieldNames = {
-                brand: 'Brand',
-                model: 'Model',
-                plate_number: 'Plat Nomor',
-                year: 'Tahun',
-                color: 'Warna',
-                fuel_type: 'Bahan Bakar',
-                transmission: 'Transmisi',
-                seat_capacity: 'Kapasitas Kursi',
-                price_per_day: 'Harga per Hari',
-                status: 'Status',
-                image: 'Gambar Utama',
-                images: 'Galeri Gambar'
-            };
-
-            // Track changes
-            function checkChanges() {
-                const changes = [];
-                const form = document.getElementById('carEditForm');
-                const summary = document.getElementById('changeSummary');
-                const summaryContent = document.getElementById('summaryContent');
-
-                Object.keys(originalValues).forEach(key => {
-                    if (key === 'images') {
-                        // Handle gallery images separately
-                        const newImagesCount = document.getElementById('images')?.files.length || 0;
-                        const removedImagesCount = document.querySelectorAll('input[name="remove_images[]"]:checked').length;
-
-                        if (newImagesCount > 0 || removedImagesCount > 0) {
-                            changes.push({
-                                field: key,
-                                oldValue: `${originalValues.images.length} gambar`,
-                                newValue: `${originalValues.images.length - removedImagesCount + newImagesCount} gambar`
-                            });
-                        }
-                        return;
-                    }
-
-                    const input = form.querySelector(`[name="${key}"]`);
-                    if (input) {
-                        let currentValue = input.value;
-
-                        // Handle select elements
-                        if (input.tagName === 'SELECT') {
-                            const selectedOption = input.options[input.selectedIndex];
-                            currentValue = selectedOption ? selectedOption.text : '';
-                        }
-
-                        // Handle file inputs
-                        if (input.type === 'file' && input.files.length > 0) {
-                            currentValue = `${input.files.length} file baru`;
-                        }
-
-                        // Handle remove image checkbox
-                        if (key === 'image' && document.querySelector('input[name="remove_image"]:checked')) {
-                            currentValue = 'Akan dihapus';
-                        }
-
-                        if (currentValue != originalValues[key]) {
-                            let displayOldValue = originalValues[key] || '-';
-                            let displayNewValue = currentValue || '-';
-
-                            // Special handling for image fields
-                            if (key === 'image') {
-                                if (document.querySelector('input[name="remove_image"]:checked')) {
-                                    displayNewValue = 'Akan dihapus';
-                                } else if (input.files.length > 0) {
-                                    displayNewValue = 'File baru dipilih';
-                                }
-                            }
-
-                            changes.push({
-                                field: key,
-                                oldValue: displayOldValue,
-                                newValue: displayNewValue
-                            });
-                        }
-                    }
-                });
-
-                if (changes.length > 0) {
-                    summary.style.display = 'block';
-                    let html = '<ul class="mb-0">';
-                    changes.forEach(change => {
-                        const fieldName = fieldNames[change.field];
-                        html += `<li><strong>${fieldName}:</strong> "${change.oldValue}" → "${change.newValue}"</li>`;
-                    });
-                    html += '</ul>';
-                    summaryContent.innerHTML = html;
-                } else {
-                    summary.style.display = 'none';
-                }
-            }
-
-            // Add event listeners
-            document.querySelectorAll('input, select').forEach(input => {
-                input.addEventListener('input', checkChanges);
-                input.addEventListener('change', checkChanges);
-            });
-
-            // Handle remove image checkboxes
-            document.querySelectorAll('input[name="remove_image"], input[name="remove_images[]"]').forEach(checkbox => {
-                checkbox.addEventListener('change', checkChanges);
-            });
-
             // Auto format price input
             const priceInput = document.getElementById('price_per_day');
             if (priceInput) {
@@ -1249,7 +915,6 @@
                         const value = parseInt(this.value);
                         if (!isNaN(value)) {
                             this.value = Math.round(value / 1000) * 1000;
-                            checkChanges();
                         }
                     }
                 });
@@ -1288,7 +953,6 @@
 
                         reader.readAsDataURL(this.files[0]);
                     }
-                    checkChanges();
                 });
             }
 
@@ -1319,7 +983,6 @@
                             reader.readAsDataURL(file);
                         });
                     }
-                    checkChanges();
                 });
             }
 
@@ -1327,50 +990,6 @@
             function validateFileSize(file, maxSizeMB) {
                 const maxSizeBytes = maxSizeMB * 1024 * 1024;
                 return file.size <= maxSizeBytes;
-            }
-
-            // Smart brand and model suggestions
-            const brandInput = document.getElementById('brand');
-            const modelInput = document.getElementById('model');
-
-            const carBrands = ['Toyota', 'Honda', 'Mitsubishi', 'Suzuki', 'Daihatsu', 'Nissan', 'Wuling', 'Hyundai', 'Kia', 'Mazda'];
-            const carModels = {
-                'Toyota': ['Avanza', 'Innova', 'Fortuner', 'Calya', 'Rush', 'Agya'],
-                'Honda': ['Brio', 'HR-V', 'CR-V', 'Mobilio', 'City', 'Civic'],
-                'Mitsubishi': ['Xpander', 'Pajero Sport', 'Outlander', 'Triton', 'Mirage'],
-                'Suzuki': ['Ertiga', 'Jimny', 'XL7', 'Baleno', 'Ignis'],
-                'Daihatsu': ['Terios', 'Ayla', 'Xenia', 'Sigra', 'Gran Max'],
-                'Nissan': ['Livina', 'X-Trail', 'March', 'Juke', 'Serena'],
-                'Wuling': ['Cortez', 'Almaz', 'Confero'],
-                'Hyundai': ['Creta', 'Stargazer', 'Santa Fe', 'Ioniq'],
-                'Kia': ['Seltos', 'Sonet', 'Carnival'],
-                'Mazda': ['CX-5', 'CX-3', '2', '3']
-            };
-
-            if (brandInput) {
-                brandInput.addEventListener('input', function () {
-                    const value = this.value.toLowerCase();
-                    const suggestions = carBrands.filter(brand =>
-                        brand.toLowerCase().includes(value)
-                    );
-
-                    // Auto-complete for exact matches
-                    if (suggestions.length === 1 && value.length > 2) {
-                        this.value = suggestions[0];
-                        updateModelSuggestions(suggestions[0]);
-                        checkChanges();
-                    }
-                });
-
-                brandInput.addEventListener('blur', function () {
-                    updateModelSuggestions(this.value);
-                });
-            }
-
-            function updateModelSuggestions(brand) {
-                if (modelInput && carModels[brand]) {
-                    modelInput.setAttribute('placeholder', `Contoh: ${carModels[brand].join(', ')}`);
-                }
             }
 
             // Form validation
@@ -1418,9 +1037,6 @@
                     }
                 });
             }
-
-            // Initial check for changes
-            checkChanges();
         });
     </script>
 @endsection

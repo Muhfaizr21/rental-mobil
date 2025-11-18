@@ -15,31 +15,31 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
-public function index()
-{
-    $cars = Car::latest()->paginate(10);
+    public function index()
+    {
+        $cars = Car::latest()->paginate(10);
 
-    // DEBUG: Cek storage configuration
-    foreach($cars as $car) {
-        \Log::info("Car {$car->id} Image Debug:", [
-            'image_field' => $car->image,
-            'images_field' => $car->images,
-            'storage_exists' => $car->image ? \Storage::disk('public')->exists($car->image) : false,
-            'public_path_exists' => $car->image ? file_exists(public_path('storage/' . $car->image)) : false,
-            'storage_url' => $car->image ? \Storage::disk('public')->url($car->image) : null,
-            'asset_url' => $car->image ? asset('storage/' . $car->image) : null,
-        ]);
+        // DEBUG: Cek storage configuration
+        foreach($cars as $car) {
+            \Log::info("Car {$car->id} Image Debug:", [
+                'image_field' => $car->image,
+                'images_field' => $car->images,
+                'storage_exists' => $car->image ? \Storage::disk('public')->exists($car->image) : false,
+                'public_path_exists' => $car->image ? file_exists(public_path('storage/' . $car->image)) : false,
+                'storage_url' => $car->image ? \Storage::disk('public')->url($car->image) : null,
+                'asset_url' => $car->image ? asset('storage/' . $car->image) : null,
+            ]);
+        }
+
+        $stats = Car::selectRaw('
+            COUNT(*) as total,
+            SUM(CASE WHEN status = "available" THEN 1 ELSE 0 END) as available,
+            SUM(CASE WHEN status = "rented" THEN 1 ELSE 0 END) as rented,
+            SUM(CASE WHEN status = "maintenance" THEN 1 ELSE 0 END) as maintenance
+        ')->first();
+
+        return view('admin.cars.index', compact('cars', 'stats'));
     }
-
-    $stats = Car::selectRaw('
-        COUNT(*) as total,
-        SUM(CASE WHEN status = "available" THEN 1 ELSE 0 END) as available,
-        SUM(CASE WHEN status = "rented" THEN 1 ELSE 0 END) as rented,
-        SUM(CASE WHEN status = "maintenance" THEN 1 ELSE 0 END) as maintenance
-    ')->first();
-
-    return view('admin.cars.index', compact('cars', 'stats'));
-}
 
     /**
      * Show the form for creating a new resource.
@@ -61,7 +61,7 @@ public function index()
             'year' => 'required|integer|min:1990|max:' . (date('Y') + 1),
             'price_per_day' => 'required|numeric|min:0',
             'color' => 'nullable|string|max:255',
-            'fuel_type' => 'nullable|string|max:255|in:petrol,diesel,electric,hybrid',
+            'fuel_type' => 'nullable|string|max:255|in:bensin,solar,listrik,hybrid',
             'transmission' => 'nullable|string|max:255|in:manual,automatic',
             'seat_capacity' => 'nullable|integer|min:1|max:20',
             'status' => 'required|in:available,rented,maintenance',
@@ -160,7 +160,8 @@ public function index()
             'year' => 'required|integer|min:1990|max:' . (date('Y') + 1),
             'price_per_day' => 'required|numeric|min:0',
             'color' => 'nullable|string|max:255',
-            'fuel_type' => 'nullable|string|max:255|in:petrol,diesel,electric,hybrid',
+            // PERBAIKAN: Ubah fuel_type validation rule agar sama dengan store()
+            'fuel_type' => 'nullable|string|max:255|in:bensin,solar,listrik,hybrid',
             'transmission' => 'nullable|string|max:255|in:manual,automatic',
             'seat_capacity' => 'nullable|integer|min:1|max:20',
             'status' => 'required|in:available,rented,maintenance',

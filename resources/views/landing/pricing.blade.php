@@ -15,10 +15,10 @@
                 🚗 {{ $stats['available_cars'] }}+ UNIT SIAP JALAN
             </div>
             <h1 class="text-4xl md:text-6xl font-black text-white mb-4">
-                Cari Mobil <span class="text-amber-400">Favorit</span> Lo
+                Cari Mobil <span class="text-amber-400">Favorit</span> anda
             </h1>
             <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-                Armada lengkap dengan harga bersahabat buat perjalanan nyaman lo
+                Armada lengkap dengan harga bersahabat buat perjalanan nyaman anda
             </p>
         </div>
     </div>
@@ -175,13 +175,6 @@
                                 </svg>
                                 {{ $car->year }}
                             </span>
-                            <span class="text-gray-600">•</span>
-                            <span class="flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                                </svg>
-                                {{ $car->plate_number }}
-                            </span>
                         </div>
                     </div>
 
@@ -196,18 +189,6 @@
                         @if($car->transmission)
                         <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-medium border border-blue-500/30">
                             {{ $car->transmission }}
-                        </span>
-                        @endif
-
-                        @if($car->fuel_type)
-                        <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-medium border border-purple-500/30">
-                            {{ $car->fuel_type }}
-                        </span>
-                        @endif
-
-                        @if($car->color)
-                        <span class="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-xs font-medium border border-orange-500/30">
-                            {{ $car->color }}
                         </span>
                         @endif
 
@@ -375,7 +356,7 @@
                     <span class="text-2xl">🛟</span>
                 </div>
                 <h3 class="text-xl font-bold text-white mb-2">Teman 24 Jam</h3>
-                <p class="text-gray-400">Tim support siap bantu lo kapan aja selama masa rental</p>
+                <p class="text-gray-400">Tim support siap bantu anda kapan aja selama masa rental</p>
             </div>
         </div>
     </div>
