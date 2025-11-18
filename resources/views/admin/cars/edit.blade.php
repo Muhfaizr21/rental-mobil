@@ -52,9 +52,7 @@
                             <p class="mb-0 text-muted small">Update data yang diperlukan</p>
                         </div>
                     </div>
-                    <div class="car-preview">
-                        <span class="preview-badge">{{ $car->plate_number }}</span>
-                    </div>
+
                 </div>
                 <div class="card-body-custom">
                     <form action="{{ route('admin.cars.update', $car) }}" method="POST" id="carEditForm">
@@ -122,24 +120,7 @@
 
                             <div class="row g-4">
                                 <div class="col-md-6">
-                                    <div class="form-group-custom">
-                                        <label for="plate_number" class="form-label-custom">
-                                            <i class="fas fa-id-card me-2"></i>Plat Nomor
-                                            <span class="required">*</span>
-                                        </label>
-                                        <input type="text"
-                                               class="form-control-custom @error('plate_number') is-invalid @enderror"
-                                               id="plate_number"
-                                               name="plate_number"
-                                               value="{{ old('plate_number', $car->plate_number) }}"
-                                               placeholder="Contoh: B 1234 XYZ"
-                                               required>
-                                        @error('plate_number')
-                                            <div class="invalid-feedback-custom">
-                                                <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
+
                                 </div>
 
                                 <div class="col-md-6">

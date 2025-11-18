@@ -123,7 +123,6 @@
                             <th>#</th>
                             <th>Kendaraan</th>
                             <th>Detail</th>
-                            <th>Plat</th>
                             <th>Harga/Hari</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -162,9 +161,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <span class="plate-badge">{{ $car->plate_number }}</span>
-                            </td>
+
                             <td>
                                 <div class="price-tag">
                                     <span class="price-label">Rp</span>

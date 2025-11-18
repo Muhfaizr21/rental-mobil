@@ -88,14 +88,7 @@
                                         </div>
                                         <div class="info-value">{{ $car->model }}</div>
                                     </div>
-                                    <div class="info-item">
-                                        <div class="info-label">
-                                            <i class="fas fa-id-card me-2"></i>Plat Nomor
-                                        </div>
-                                        <div class="info-value">
-                                            <span class="plate-badge">{{ $car->plate_number }}</span>
-                                        </div>
-                                    </div>
+
                                     <div class="info-item">
                                         <div class="info-label">
                                             <i class="fas fa-calendar me-2"></i>Tahun
