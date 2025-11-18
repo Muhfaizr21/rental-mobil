@@ -8,6 +8,7 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -52,27 +53,52 @@ class CarController extends Controller
             'fuel_type' => 'nullable|string|max:255|in:petrol,diesel,electric,hybrid',
             'transmission' => 'nullable|string|max:255|in:manual,automatic',
             'seat_capacity' => 'nullable|integer|min:1|max:20',
-            'status' => 'required|in:available,rented,maintenance'
+            'status' => 'required|in:available,rented,maintenance',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB max
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120'
         ], [
             'plate_number.unique' => 'Nomor plat sudah terdaftar',
             'price_per_day.min' => 'Harga harus lebih dari 0',
             'year.min' => 'Tahun mobil tidak valid',
-            'year.max' => 'Tahun mobil tidak valid'
+            'year.max' => 'Tahun mobil tidak valid',
+            'image.image' => 'File harus berupa gambar',
+            'image.mimes' => 'Format gambar harus jpeg, png, jpg, gif, atau webp',
+            'image.max' => 'Ukuran gambar maksimal 5MB',
+            'images.*.image' => 'Semua file harus berupa gambar',
+            'images.*.mimes' => 'Format gambar harus jpeg, png, jpg, gif, atau webp',
+            'images.*.max' => 'Ukuran gambar maksimal 5MB'
         ]);
 
         try {
-            Car::create($validated);
+            // Handle single image upload
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('cars', 'public');
+                $validated['image'] = $imagePath;
+            }
+
+            // Handle multiple images upload
+            if ($request->hasFile('images')) {
+                $imagePaths = [];
+                foreach ($request->file('images') as $image) {
+                    $imagePaths[] = $image->store('cars/gallery', 'public');
+                }
+                $validated['images'] = $imagePaths;
+            }
+
+            $car = Car::create($validated);
 
             Log::info('New car created', [
+                'car_id' => $car->id,
                 'brand' => $validated['brand'],
                 'model' => $validated['model'],
                 'plate_number' => $validated['plate_number'],
+                'has_image' => !empty($validated['image']),
+                'has_gallery' => !empty($validated['images']),
                 'created_by' => auth()->id()
             ]);
 
             return redirect()->route('admin.cars.index')
                 ->with('success', 'Mobil berhasil ditambahkan!');
-
         } catch (\Exception $e) {
             Log::error('Car creation failed: ' . $e->getMessage(), [
                 'request_data' => $request->except('_token')
@@ -126,28 +152,81 @@ class CarController extends Controller
             'fuel_type' => 'nullable|string|max:255|in:petrol,diesel,electric,hybrid',
             'transmission' => 'nullable|string|max:255|in:manual,automatic',
             'seat_capacity' => 'nullable|integer|min:1|max:20',
-            'status' => 'required|in:available,rented,maintenance'
+            'status' => 'required|in:available,rented,maintenance',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'remove_image' => 'nullable|boolean',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'remove_images' => 'nullable|array',
+            'remove_images.*' => 'string'
         ], [
             'plate_number.unique' => 'Nomor plat sudah terdaftar',
             'price_per_day.min' => 'Harga harus lebih dari 0',
             'year.min' => 'Tahun mobil tidak valid',
-            'year.max' => 'Tahun mobil tidak valid'
+            'year.max' => 'Tahun mobil tidak valid',
+            'image.image' => 'File harus berupa gambar',
+            'image.mimes' => 'Format gambar harus jpeg, png, jpg, gif, atau webp',
+            'image.max' => 'Ukuran gambar maksimal 5MB',
+            'images.*.image' => 'Semua file harus berupa gambar',
+            'images.*.mimes' => 'Format gambar harus jpeg, png, jpg, gif, atau webp',
+            'images.*.max' => 'Ukuran gambar maksimal 5MB'
         ]);
 
         try {
             $oldData = $car->toArray();
+
+            // Handle image removal
+            if ($request->has('remove_image') && $car->image) {
+                Storage::disk('public')->delete($car->image);
+                $validated['image'] = null;
+            }
+
+            // Handle new image upload
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($car->image) {
+                    Storage::disk('public')->delete($car->image);
+                }
+                $imagePath = $request->file('image')->store('cars', 'public');
+                $validated['image'] = $imagePath;
+            }
+
+            // Handle gallery images removal
+            if ($request->has('remove_images') && $car->images) {
+                $currentImages = $car->images ?? [];
+                $imagesToRemove = $request->input('remove_images', []);
+
+                foreach ($imagesToRemove as $imageToRemove) {
+                    if (($key = array_search($imageToRemove, $currentImages)) !== false) {
+                        Storage::disk('public')->delete($imageToRemove);
+                        unset($currentImages[$key]);
+                    }
+                }
+                $validated['images'] = array_values($currentImages);
+            }
+
+            // Handle new gallery images upload
+            if ($request->hasFile('images')) {
+                $currentImages = $validated['images'] ?? ($car->images ?? []);
+                foreach ($request->file('images') as $image) {
+                    $imagePath = $image->store('cars/gallery', 'public');
+                    $currentImages[] = $imagePath;
+                }
+                $validated['images'] = $currentImages;
+            }
+
             $car->update($validated);
 
             Log::info('Car updated', [
                 'car_id' => $car->id,
                 'old_data' => $oldData,
                 'new_data' => $validated,
+                'image_updated' => $request->hasFile('image') || $request->has('remove_image'),
+                'gallery_updated' => $request->hasFile('images') || $request->has('remove_images'),
                 'updated_by' => auth()->id()
             ]);
 
             return redirect()->route('admin.cars.index')
                 ->with('success', 'Data mobil berhasil diperbarui!');
-
         } catch (\Exception $e) {
             Log::error('Car update failed: ' . $e->getMessage(), [
                 'car_id' => $car->id,
@@ -178,18 +257,29 @@ class CarController extends Controller
 
             $carName = $car->brand . ' ' . $car->model . ' (' . $car->plate_number . ')';
 
+            // Delete images
+            if ($car->image) {
+                Storage::disk('public')->delete($car->image);
+            }
+
+            if ($car->images) {
+                foreach ($car->images as $image) {
+                    Storage::disk('public')->delete($image);
+                }
+            }
+
             // Soft delete
             $car->delete();
 
             Log::info('Car soft deleted', [
                 'car_id' => $car->id,
                 'car_name' => $carName,
+                'images_deleted' => true,
                 'deleted_by' => auth()->id()
             ]);
 
             return redirect()->route('admin.cars.index')
                 ->with('success', 'Mobil berhasil dihapus!');
-
         } catch (\Exception $e) {
             Log::error('Car deletion failed: ' . $e->getMessage(), [
                 'car_id' => $car->id
@@ -222,7 +312,6 @@ class CarController extends Controller
             ]);
 
             return back()->with('success', 'Status mobil berhasil diperbarui!');
-
         } catch (\Exception $e) {
             Log::error('Car status update failed: ' . $e->getMessage(), [
                 'car_id' => $car->id,
@@ -268,7 +357,6 @@ class CarController extends Controller
 
             return redirect()->route('admin.cars.index')
                 ->with('success', 'Mobil berhasil dipulihkan!');
-
         } catch (\Exception $e) {
             Log::error('Car restore failed: ' . $e->getMessage(), [
                 'car_id' => $id
@@ -294,17 +382,29 @@ class CarController extends Controller
             }
 
             $carName = $car->brand . ' ' . $car->model . ' (' . $car->plate_number . ')';
+
+            // Delete all images
+            if ($car->image) {
+                Storage::disk('public')->delete($car->image);
+            }
+
+            if ($car->images) {
+                foreach ($car->images as $image) {
+                    Storage::disk('public')->delete($image);
+                }
+            }
+
             $car->forceDelete();
 
             Log::warning('Car permanently deleted', [
                 'car_id' => $id,
                 'car_name' => $carName,
+                'images_deleted' => true,
                 'deleted_by' => auth()->id()
             ]);
 
             return redirect()->route('admin.cars.trashed')
                 ->with('success', 'Mobil berhasil dihapus permanen!');
-
         } catch (\Exception $e) {
             Log::error('Car force delete failed: ' . $e->getMessage(), [
                 'car_id' => $id
@@ -313,5 +413,82 @@ class CarController extends Controller
             return redirect()->route('admin.cars.trashed')
                 ->with('error', 'Gagal menghapus mobil permanen: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Delete single image from gallery
+     */
+    public function deleteImage(Request $request, Car $car)
+    {
+        try {
+            $request->validate([
+                'image_path' => 'required|string'
+            ]);
+
+            $imagePath = $request->image_path;
+
+            // Verify the image belongs to this car
+            if ($car->images && in_array($imagePath, $car->images)) {
+                Storage::disk('public')->delete($imagePath);
+
+                $updatedImages = array_values(array_diff($car->images, [$imagePath]));
+                $car->update(['images' => $updatedImages]);
+
+                Log::info('Car gallery image deleted', [
+                    'car_id' => $car->id,
+                    'image_path' => $imagePath,
+                    'deleted_by' => auth()->id()
+                ]);
+
+                return back()->with('success', 'Gambar berhasil dihapus dari galeri!');
+            }
+
+            return back()->with('error', 'Gambar tidak ditemukan!');
+        } catch (\Exception $e) {
+            Log::error('Car image deletion failed: ' . $e->getMessage(), [
+                'car_id' => $car->id,
+                'image_path' => $request->image_path
+            ]);
+
+            return back()->with('error', 'Gagal menghapus gambar: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Helper method to get image URL
+     */
+    private function getImageUrl($path)
+    {
+        if (!$path) return null;
+
+        // Check if file exists in storage
+        if (Storage::disk('public')->exists($path)) {
+            return Storage::disk('public')->url($path);
+        }
+
+        return null;
+    }
+
+    /**
+     * Helper method to get all image URLs for a car
+     */
+    public function getCarImageUrls(Car $car)
+    {
+        $imageUrls = [];
+
+        // Main image
+        if ($car->image) {
+            $imageUrls['main'] = $this->getImageUrl($car->image);
+        }
+
+        // Gallery images
+        $imageUrls['gallery'] = [];
+        if ($car->images) {
+            foreach ($car->images as $image) {
+                $imageUrls['gallery'][] = $this->getImageUrl($image);
+            }
+        }
+
+        return $imageUrls;
     }
 }

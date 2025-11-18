@@ -55,52 +55,52 @@
     @endif
 
     <!-- Stats Cards -->
-<div class="row g-4 mb-4">
-    <div class="col-xl-3 col-md-6">
-        <div class="stat-mini-card stat-primary">
-            <div class="stat-icon">
-                <i class="fas fa-car"></i>
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-mini-card stat-primary">
+                <div class="stat-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ $stats->total }}</h3>
+                    <p>Total Mobil</p>
+                </div>
             </div>
-            <div class="stat-content">
-                <h3>{{ $stats->total }}</h3>
-                <p>Total Mobil</p>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-mini-card stat-success">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ $stats->available }}</h3>
+                    <p>Tersedia</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-mini-card stat-warning">
+                <div class="stat-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ $stats->rented }}</h3>
+                    <p>Sedang Disewa</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="stat-mini-card stat-info">
+                <div class="stat-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ $stats->maintenance }}</h3>
+                    <p>Maintenance</p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="stat-mini-card stat-success">
-            <div class="stat-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <div class="stat-content">
-                <h3>{{ $stats->available }}</h3>
-                <p>Tersedia</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="stat-mini-card stat-warning">
-            <div class="stat-icon">
-                <i class="fas fa-key"></i>
-            </div>
-            <div class="stat-content">
-                <h3>{{ $stats->rented }}</h3>
-                <p>Sedang Disewa</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="stat-mini-card stat-info">
-            <div class="stat-icon">
-                <i class="fas fa-tools"></i>
-            </div>
-            <div class="stat-content">
-                <h3>{{ $stats->maintenance }}</h3>
-                <p>Maintenance</p>
-            </div>
-        </div>
-    </div>
-</div>
 
     <!-- Cars Table Card -->
     <div class="card-custom">
@@ -121,6 +121,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Gambar</th>
                             <th>Kendaraan</th>
                             <th>Detail</th>
                             <th>Harga/Hari</th>
@@ -133,6 +134,27 @@
                         <tr class="car-row">
                             <td>
                                 <div class="row-number">{{ $loop->iteration + ($cars->currentPage() - 1) * $cars->perPage() }}</div>
+                            </td>
+                            <td>
+                                <div class="car-image-container">
+                                    @if($car->image)
+                                        <img src="{{ Storage::disk('public')->url($car->image) }}" 
+                                             alt="{{ $car->brand }} {{ $car->model }}" 
+                                             class="car-image"
+                                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA4MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik00MCAyMEM0My4zMTM3IDIwIDQ2IDIyLjY4NjMgNDYgMjZDNDYgMjkuMzEzNyA0My4zMTM3IDMyIDQwIDMyQzM2LjY4NjMgMzIgMzQgMjkuMzEzNyAzNCAyNkMzNCAyMi42ODYzIDM2LjY4NjMgMjAgNDAgMjBaIiBmaWxsPSIjOTRBM0I4Ii8+CjxwYXRoIGQ9Ik01MiA0MEgyOEMyNi44OTU0IDQwIDI2IDM5LjEwNDYgMjYgMzhWMjJDMjYgMjAuODk1NCAyNi44OTU0IDIwIDI4IDIwSDUyQzUzLjEwNDYgMjAgNTQgMjAuODk1NCA1NCAyMlYzOEM1NCAzOS4xMDQ2IDUzLjEwNDYgNDAgNTIgNDBaIiBmaWxsPSIjOTRBM0I4Ii8+Cjwvc3ZnPgo='">
+                                        @if($car->images && count($car->images) > 0)
+                                            <div class="gallery-badge" title="{{ count($car->images) }} gambar tambahan">
+                                                <i class="fas fa-images"></i>
+                                                <span>{{ count($car->images) }}</span>
+                                            </div>
+                                        @endif
+                                    @else
+                                        <div class="car-image-placeholder">
+                                            <i class="fas fa-car-side"></i>
+                                            <span>No Image</span>
+                                        </div>
+                                    @endif
+                                </div>
                             </td>
                             <td>
                                 <div class="car-info">
@@ -149,11 +171,33 @@
                                     </div>
                                     <div class="detail-item">
                                         <i class="fas fa-gas-pump me-2"></i>
-                                        <span>{{ $car->fuel_type ?? '-' }}</span>
+                                        <span>
+                                            @if($car->fuel_type)
+                                                @switch($car->fuel_type)
+                                                    @case('petrol') Bensin @break
+                                                    @case('diesel') Solar @break
+                                                    @case('electric') Listrik @break
+                                                    @case('hybrid') Hybrid @break
+                                                    @default {{ $car->fuel_type }}
+                                                @endswitch
+                                            @else
+                                                -
+                                            @endif
+                                        </span>
                                     </div>
                                     <div class="detail-item">
                                         <i class="fas fa-cogs me-2"></i>
-                                        <span>{{ $car->transmission ?? '-' }}</span>
+                                        <span>
+                                            @if($car->transmission)
+                                                @switch($car->transmission)
+                                                    @case('manual') Manual @break
+                                                    @case('automatic') Automatic @break
+                                                    @default {{ $car->transmission }}
+                                                @endswitch
+                                            @else
+                                                -
+                                            @endif
+                                        </span>
                                     </div>
                                     <div class="detail-item">
                                         <i class="fas fa-users me-2"></i>
@@ -206,7 +250,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center py-5">
+                            <td colspan="8" class="text-center py-5">
                                 <div class="empty-state">
                                     <i class="fas fa-car-side fa-4x mb-3"></i>
                                     <h5>Belum ada data mobil</h5>
@@ -549,6 +593,62 @@
     font-weight: 700;
 }
 
+/* Car Image Styles */
+.car-image-container {
+    position: relative;
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.car-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.car-row:hover .car-image {
+    transform: scale(1.1);
+}
+
+.car-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 0.7rem;
+}
+
+.car-image-placeholder i {
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+}
+
+.gallery-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.gallery-badge i {
+    font-size: 0.6rem;
+}
+
 .car-info {
     display: flex;
     flex-direction: column;
@@ -766,6 +866,11 @@
     .detail-item {
         font-size: 0.75rem;
     }
+
+    .car-image-container {
+        width: 70px;
+        height: 50px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -800,6 +905,31 @@
 
     .status-select {
         min-width: 100px;
+    }
+
+    .car-image-container {
+        width: 60px;
+        height: 45px;
+    }
+
+    .car-image-placeholder {
+        font-size: 0.6rem;
+    }
+
+    .car-image-placeholder i {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .car-image-container {
+        width: 50px;
+        height: 40px;
+    }
+
+    .gallery-badge {
+        padding: 1px 4px;
+        font-size: 0.6rem;
     }
 }
 </style>
@@ -843,5 +973,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 50 + 300);
     });
 });
+
+// Image error handling
+function handleImageError(img) {
+    img.style.display = 'none';
+    const placeholder = document.createElement('div');
+    placeholder.className = 'car-image-placeholder';
+    placeholder.innerHTML = '<i class="fas fa-car-side"></i><span>No Image</span>';
+    img.parentNode.appendChild(placeholder);
+}
 </script>
 @endsection
