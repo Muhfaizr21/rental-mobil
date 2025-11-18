@@ -5,15 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Car;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         // Query bookings dengan filter status
         $query = Booking::with('car')->latest();
@@ -40,7 +45,7 @@ class BookingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $cars = Car::where('status', 'available')->get();
         return view('admin.bookings.create', compact('cars'));
@@ -49,7 +54,7 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'car_id' => 'required|exists:cars,id',
@@ -65,13 +70,13 @@ class BookingController extends Controller
             // Check if car is available for the selected dates
             $existingBooking = Booking::where('car_id', $validated['car_id'])
                 ->where('status', 'approved')
-                ->where(function($query) use ($validated) {
+                ->where(function ($query) use ($validated) {
                     $query->whereBetween('start_date', [$validated['start_date'], $validated['end_date']])
-                          ->orWhereBetween('end_date', [$validated['start_date'], $validated['end_date']])
-                          ->orWhere(function($q) use ($validated) {
-                              $q->where('start_date', '<=', $validated['start_date'])
+                        ->orWhereBetween('end_date', [$validated['start_date'], $validated['end_date']])
+                        ->orWhere(function ($q) use ($validated) {
+                            $q->where('start_date', '<=', $validated['start_date'])
                                 ->where('end_date', '>=', $validated['end_date']);
-                          });
+                        });
                 })->exists();
 
             if ($existingBooking) {
@@ -79,8 +84,8 @@ class BookingController extends Controller
             }
 
             // Calculate duration
-            $start = \Carbon\Carbon::parse($validated['start_date']);
-            $end = \Carbon\Carbon::parse($validated['end_date']);
+            $start = Carbon::parse((string) $validated['start_date']);
+            $end = Carbon::parse((string) $validated['end_date']);
             $duration = $start->diffInDays($end) + 1;
 
             // Create booking
@@ -96,12 +101,11 @@ class BookingController extends Controller
                 'customer_name' => $validated['customer_name'],
                 'car_id' => $validated['car_id'],
                 'total_price' => $validated['total_price'],
-                'created_by' => auth()->id()
+                'created_by' => Auth::id()
             ]);
 
             return redirect()->route('admin.bookings.index')
                 ->with('success', 'Booking berhasil dibuat!');
-
         } catch (\Exception $e) {
             Log::error('Booking creation failed: ' . $e->getMessage(), [
                 'request_data' => $request->except('_token')
@@ -116,7 +120,7 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Booking $booking)
+    public function show(Booking $booking): View
     {
         $booking->load('car');
         return view('admin.bookings.show', compact('booking'));
@@ -125,7 +129,7 @@ class BookingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Booking $booking)
+    public function edit(Booking $booking): View
     {
         $cars = Car::all();
         $booking->load('car');
@@ -135,7 +139,7 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Booking $booking)
+    public function update(Request $request, Booking $booking): RedirectResponse
     {
         $validated = $request->validate([
             'car_id' => 'required|exists:cars,id',
@@ -152,8 +156,8 @@ class BookingController extends Controller
             $oldCarId = $booking->car_id;
 
             // Calculate duration
-            $start = \Carbon\Carbon::parse($validated['start_date']);
-            $end = \Carbon\Carbon::parse($validated['end_date']);
+            $start = Carbon::parse((string) $validated['start_date']);
+            $end = Carbon::parse((string) $validated['end_date']);
             $duration = $start->diffInDays($end) + 1;
 
             $booking->update(array_merge($validated, ['duration' => $duration]));
@@ -165,12 +169,11 @@ class BookingController extends Controller
                 'booking_id' => $booking->id,
                 'old_status' => $oldStatus,
                 'new_status' => $validated['status'],
-                'updated_by' => auth()->id()
+                'updated_by' => Auth::id()
             ]);
 
             return redirect()->route('admin.bookings.index')
                 ->with('success', 'Booking berhasil diperbarui!');
-
         } catch (\Exception $e) {
             Log::error('Booking update failed: ' . $e->getMessage(), [
                 'booking_id' => $booking->id,
@@ -186,7 +189,7 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Booking $booking)
+    public function destroy(Booking $booking): RedirectResponse
     {
         try {
             $bookingData = [
@@ -205,12 +208,11 @@ class BookingController extends Controller
 
             Log::info('Booking deleted', [
                 'booking_data' => $bookingData,
-                'deleted_by' => auth()->id()
+                'deleted_by' => Auth::id()
             ]);
 
             return redirect()->route('admin.bookings.index')
                 ->with('success', 'Booking berhasil dihapus!');
-
         } catch (\Exception $e) {
             Log::error('Booking deletion failed: ' . $e->getMessage(), [
                 'booking_id' => $booking->id
@@ -224,7 +226,7 @@ class BookingController extends Controller
     /**
      * Update booking status quickly
      */
-    public function updateStatus(Request $request, Booking $booking)
+    public function updateStatus(Request $request, Booking $booking): RedirectResponse
     {
         try {
             $request->validate([
@@ -234,7 +236,7 @@ class BookingController extends Controller
             $oldStatus = $booking->status;
             $oldCarId = $booking->car_id;
 
-            $booking->update(['status' => $request->status]);
+            $booking->update(['status' => $request->input('status')]);
 
             // Update car status based on booking status
             $this->updateCarStatus($booking, $oldStatus, $oldCarId);
@@ -243,12 +245,11 @@ class BookingController extends Controller
                 'booking_id' => $booking->id,
                 'customer_name' => $booking->customer_name,
                 'from_status' => $oldStatus,
-                'to_status' => $request->status,
-                'updated_by' => auth()->id()
+                'to_status' => $request->input('status'),
+                'updated_by' => Auth::id()
             ]);
 
             return back()->with('success', 'Status booking berhasil diperbarui!');
-
         } catch (\Exception $e) {
             Log::error('Booking status update failed: ' . $e->getMessage(), [
                 'booking_id' => $booking->id,
@@ -262,7 +263,7 @@ class BookingController extends Controller
     /**
      * Helper method to update car status
      */
-    private function updateCarStatus(Booking $booking, $oldStatus, $oldCarId)
+    private function updateCarStatus(Booking $booking, string $oldStatus, int $oldCarId): void
     {
         try {
             // If car changed, free the old car
@@ -285,7 +286,6 @@ class BookingController extends Controller
                     'new_status' => 'rented',
                     'booking_id' => $booking->id
                 ]);
-
             } elseif ($oldStatus == 'approved' && $booking->status != 'approved') {
                 Car::where('id', $booking->car_id)->update(['status' => 'available']);
 
@@ -294,7 +294,6 @@ class BookingController extends Controller
                     'new_status' => 'available',
                     'reason' => 'booking status changed from approved'
                 ]);
-
             } elseif ($booking->status == 'completed') {
                 Car::where('id', $booking->car_id)->update(['status' => 'available']);
 
@@ -304,7 +303,6 @@ class BookingController extends Controller
                     'reason' => 'booking completed'
                 ]);
             }
-
         } catch (\Exception $e) {
             Log::error('Car status update failed: ' . $e->getMessage(), [
                 'booking_id' => $booking->id,
@@ -319,7 +317,7 @@ class BookingController extends Controller
     /**
      * Calculate price based on dates and car
      */
-    public function calculatePrice(Request $request)
+    public function calculatePrice(Request $request): JsonResponse
     {
         try {
             $request->validate([
@@ -328,17 +326,17 @@ class BookingController extends Controller
                 'end_date' => 'required|date|after:start_date'
             ]);
 
-            $car = Car::findOrFail($request->car_id);
-            $start = \Carbon\Carbon::parse($request->start_date);
-            $end = \Carbon\Carbon::parse($request->end_date);
+            $car = Car::findOrFail($request->input('car_id'));
+            $start = Carbon::parse((string) $request->input('start_date'));
+            $end = Carbon::parse((string) $request->input('end_date'));
             $days = $start->diffInDays($end) + 1; // Include both start and end days
 
             $totalPrice = $days * $car->price_per_day;
 
             Log::debug('Price calculation', [
                 'car_id' => $car->id,
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
+                'start_date' => $request->input('start_date'),
+                'end_date' => $request->input('end_date'),
                 'days' => $days,
                 'price_per_day' => $car->price_per_day,
                 'total_price' => $totalPrice
@@ -354,7 +352,6 @@ class BookingController extends Controller
                     'plate_number' => $car->plate_number
                 ]
             ]);
-
         } catch (\Exception $e) {
             Log::error('Price calculation failed: ' . $e->getMessage(), [
                 'request_data' => $request->all()
@@ -369,7 +366,7 @@ class BookingController extends Controller
     /**
      * Get booking statistics for dashboard
      */
-    public function getStats()
+    public function getStats(): JsonResponse
     {
         try {
             $stats = Booking::selectRaw('
@@ -384,7 +381,6 @@ class BookingController extends Controller
                 'success' => true,
                 'data' => $stats
             ]);
-
         } catch (\Exception $e) {
             Log::error('Get booking stats failed: ' . $e->getMessage());
 

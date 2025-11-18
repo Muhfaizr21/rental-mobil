@@ -11,10 +11,12 @@ use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
-| LANDING PAGE
+| LANDING PAGE - PUBLIC
 |--------------------------------------------------------------------------
+| Tambahkan middleware 'logout.admin' agar admin otomatis logout saat buka publik
 */
-Route::controller(LandingController::class)->group(function () {
+
+Route::middleware('logout.admin')->controller(LandingController::class)->group(function () {
     Route::get('/', 'home')->name('landing.home');
     Route::get('/pricing', 'pricing')->name('landing.pricing');
     Route::get('/car/{id}', 'detail')->name('landing.detail');
@@ -28,7 +30,7 @@ Route::controller(LandingController::class)->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::post('/chatbot/send', [ChatbotController::class, 'sendMessage'])
-    ->middleware('throttle:10,1')
+    ->middleware(['throttle:10,1', 'logout.admin'])
     ->name('chatbot.send');
 
 /*
@@ -43,7 +45,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])
 
         Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
 
-        // Cars - dengan rate limiting
+        // Cars
         Route::resource('cars', CarController::class)->middleware('throttle:30,1');
         Route::post('cars/{car}/status', [CarController::class, 'updateStatus'])
             ->name('cars.updateStatus')
@@ -58,7 +60,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])
             ->name('cars.forceDelete')
             ->middleware('throttle:10,1');
 
-        // Bookings - dengan rate limiting
+        // Bookings
         Route::resource('bookings', BookingController::class)->middleware('throttle:30,1');
         Route::post('bookings/{booking}/status', [BookingController::class, 'updateStatus'])
             ->name('bookings.updateStatus')
@@ -67,7 +69,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])
             ->name('bookings.calculatePrice')
             ->middleware('throttle:30,1');
 
-        // Contacts - FIXED: Tambahkan route yang missing
+        // Contacts
         Route::resource('contacts', ContactController::class)->middleware('throttle:30,1');
         Route::post('contacts/{contact}/mark-as-read', [ContactController::class, 'markAsRead'])
             ->name('contacts.markAsRead')
@@ -82,7 +84,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])
             ->name('contacts.bulkAction')
             ->middleware('throttle:10,1');
 
-        // Reports - dengan rate limiting
+        // Reports
         Route::get('reports', [ReportController::class, 'index'])
             ->name('reports.index')
             ->middleware('throttle:20,1');
@@ -96,11 +98,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])
 
 /*
 |--------------------------------------------------------------------------
-| USER PROFILE - dengan security enhancement
+| USER PROFILE
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Hapus password.confirm untuk kemudahan user, atau tambahkan hanya untuk sensitive actions
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit')
         ->middleware('throttle:10,1');
@@ -117,18 +118,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 | AUTH
 |--------------------------------------------------------------------------
 */
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| LOCAL TEST ONLY - dengan security
+| LOCAL TEST ONLY
 |--------------------------------------------------------------------------
 */
 if (app()->environment('local')) {
     Route::get('/test', fn() => 'OK')->middleware('throttle:10,1');
 
     Route::middleware(['auth', 'role:admin'])->group(function () {
-        Route::get('/debug/routes', function() {
+        Route::get('/debug/routes', function () {
             $routes = collect(Route::getRoutes())->map(function ($route) {
                 return [
                     'method' => $route->methods(),

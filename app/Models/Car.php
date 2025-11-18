@@ -4,8 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @property int $id
+ * @property string $brand
+ * @property string $model
+ * @property string $plate_number
+ * @property int $year
+ * @property int $price_per_day
+ * @property string $status
+ * @property string $color
+ * @property string $fuel_type
+ * @property string $transmission
+ * @property int $seat_capacity
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $full_name
+ * @property string $formatted_price
+ * @property string $status_badge
+ */
 class Car extends Model
 {
     use HasFactory, SoftDeletes;
@@ -29,24 +49,28 @@ class Car extends Model
         'seat_capacity' => 'integer'
     ];
 
-    // Relationships
-    public function bookings()
+    /**
+     * Relationships
+     */
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    // Accessors
-    public function getFullNameAttribute()
+    /**
+     * Accessors
+     */
+    public function getFullNameAttribute(): string
     {
-        return "{$this->brand} {$this->model}";
+        return "{$this->brand} {$this->model} ({$this->year})";
     }
 
-    public function getFormattedPriceAttribute()
+    public function getFormattedPriceAttribute(): string
     {
         return 'Rp ' . number_format($this->price_per_day, 0, ',', '.');
     }
 
-    public function getStatusBadgeAttribute()
+    public function getStatusBadgeAttribute(): string
     {
         $statuses = [
             'available' => ['label' => '✓ Tersedia', 'class' => 'success'],
@@ -59,44 +83,73 @@ class Car extends Model
         return '<span class="badge badge-' . $status['class'] . '">' . $status['label'] . '</span>';
     }
 
-    // Scopes
-    public function scopeAvailable($query)
+    /**
+     * Scopes
+     */
+    public function scopeAvailable(Builder $query): Builder
     {
         return $query->where('status', 'available');
     }
 
-    public function scopeRented($query)
+    public function scopeRented(Builder $query): Builder
     {
         return $query->where('status', 'rented');
     }
 
-    public function scopeMaintenance($query)
+    public function scopeMaintenance(Builder $query): Builder
     {
         return $query->where('status', 'maintenance');
     }
 
-    public function scopeSearch($query, $search)
+    public function scopeSearch(Builder $query, string $search): Builder
     {
-        return $query->where(function($q) use ($search) {
+        return $query->where(function ($q) use ($search) {
             $q->where('brand', 'like', "%{$search}%")
-              ->orWhere('model', 'like', "%{$search}%")
-              ->orWhere('plate_number', 'like', "%{$search}%");
+                ->orWhere('model', 'like', "%{$search}%")
+                ->orWhere('plate_number', 'like', "%{$search}%")
+                ->orWhere('color', 'like', "%{$search}%");
         });
     }
 
-    // Business Logic
-    public function isAvailable()
+    public function scopeActive(Builder $query): Builder
     {
-        return $this->status === 'available';
+        return $query->whereNull('deleted_at');
     }
 
-    public function canBeRented()
+    /**
+     * Business Logic
+     */
+    public function isAvailable(): bool
     {
-        return $this->isAvailable() && !$this->trashed();
+        return $this->status === 'available' && !$this->trashed();
     }
 
-    public function activeBookings()
+    public function canBeRented(): bool
+    {
+        return $this->isAvailable() && $this->status !== 'maintenance';
+    }
+
+    public function activeBookings(): HasMany
     {
         return $this->bookings()->whereIn('status', ['pending', 'approved']);
+    }
+
+    /**
+     * Check if car is available for given dates
+     */
+    public function isAvailableForDates($startDate, $endDate): bool
+    {
+        $conflictingBooking = $this->bookings()
+            ->where('status', 'approved')
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('start_date', [$startDate, $endDate])
+                    ->orWhereBetween('end_date', [$startDate, $endDate])
+                    ->orWhere(function ($q) use ($startDate, $endDate) {
+                        $q->where('start_date', '<=', $startDate)
+                            ->where('end_date', '>=', $endDate);
+                    });
+            })->exists();
+
+        return !$conflictingBooking && $this->isAvailable();
     }
 }
