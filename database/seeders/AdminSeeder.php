@@ -22,13 +22,13 @@ class AdminSeeder extends Seeder
                 'name' => 'Administrator',
                 'email' => 'admin@rental.com',
                 'email_verified_at' => now(),
-                'password' => Hash::make('password123'), // Ganti dengan password yang aman
+                'password' => Hash::make('Rentgo19'), // Ganti dengan password yang aman
                 'role' => 'admin', // Kita tambahkan field role
             ]);
 
             $this->command->info('Admin user created successfully!');
             $this->command->info('Email: admin@rental.com');
-            $this->command->info('Password: password123');
+            $this->command->info('Password: Rentgo19');
         } else {
             $this->command->info('Admin user already exists!');
         }

@@ -26,7 +26,7 @@
                     <span class="bg-gradient-to-r from-yellow-300 via-amber-400 to-orange-500 bg-clip-text text-transparent">
                         Rentgo
                     </span>
-                    <span class="text-gray-300 text-sm md:text-base">.id</span>
+                    <span class="text-gray-300 text-sm md:text-base">.ID</span>
                 </span>
             </a>
 

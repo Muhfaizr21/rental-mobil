@@ -64,13 +64,6 @@
                     <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
-
-            <!-- REMEMBER -->
-            <div class="flex items-center">
-                <input type="checkbox" id="remember" name="remember" class="rounded border-gray-500 text-indigo-500">
-                <label for="remember" class="ml-2 text-sm text-gray-300">Remember me</label>
-            </div>
-
             <!-- SUBMIT BUTTON -->
             <button
                 type="submit"
