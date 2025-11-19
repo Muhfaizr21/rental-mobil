@@ -105,11 +105,6 @@
     <div class="max-w-6xl mx-auto px-4 relative z-10">
 
         <div class="text-center mb-20">
-            <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full
-                bg-black/40 border border-amber-400/40 text-amber-300 text-sm font-bold shadow-lg shadow-amber-400/20">
-                ⭐ FOLLOW KITA YUK!
-            </div>
-
             <h2 class="text-4xl md:text-5xl font-extrabold text-white mt-6">
                 Temukan Kami <span class="text-yellow-400">Di Social Media</span>
             </h2>
@@ -383,7 +378,7 @@
             Udah Siap<br>Jalan-Jalan?
         </h2>
         <p class="text-xl text-amber-100/90 mb-10 max-w-2xl mx-auto">
-            Jangan nunggu besok, mobil impian lo udah nunggu dari sekarang!
+            Jangan nunggu besok, mobil impian kalian udah nunggu dari sekarang!
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
