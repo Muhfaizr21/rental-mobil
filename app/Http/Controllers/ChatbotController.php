@@ -41,9 +41,9 @@ class ChatbotController extends Controller
             'total_cars' => $totalCars,
             'current_date' => now()->format('d F Y'),
             'company_info' => [
-                'name' => 'RentGo Cirebon',
-                'hours' => 'Senin-Sabtu: 08.00-20.00 WIB, Minggu: 09.00-18.00 WIB',
-                'location' => 'Keandra Living, Jalan Damai 6 No.16, Sampiran, Kec. Talun, Kabupaten Cirebon, Jawa Barat',
+                'name' => 'RentGoid indonesia',
+                'hours' => '24 jam aktif setiap hari',
+                'location' => 'Jl. Flamboyan XIII No D.341 Griya Cempaka Arum Wanasaba Lor Talun - Kab. Cirebon (45171)',
                 'requirements' => 'KTP, SIM A, DP 50%',
                 'phone' => '6285601700507',
                 'email' => 'rentgo.idcirebon@gmail.com',
@@ -147,7 +147,7 @@ class ChatbotController extends Controller
             $response = "📄 **SYARAT & KETENTUAN RENTAL:**\n\n";
             $response .= "✅ **Dokumen Wajib:**\n";
             $response .= "• KTP asli (masih berlaku)\n";
-            $response .= "• SIM A asli (minimal 1 tahun)\n\n";
+            $response .= "• SIM A asli (masih berlaku)\n\n";
             $response .= "💰 **Pembayaran:**\n";
             $response .= "• DP 50% saat booking\n";
             $response .= "• Pelunasan saat ambil mobil\n";
@@ -158,7 +158,6 @@ class ChatbotController extends Controller
             $response .= "• Area layanan: {$company['area']}\n\n";
             $response .= "🚗 **Layanan Tambahan:**\n";
             $response .= "• Antar jemput mobil (biaya sesuai jarak)\n";
-            $response .= "• Bensin dalam kota sudah termasuk";
             return $response;
         }
 

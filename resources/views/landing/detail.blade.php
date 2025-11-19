@@ -222,7 +222,7 @@
                     <h2 class="text-2xl font-black text-white mb-4">📖 Cerita Singkat Tentang Mobil Ini</h2>
                     <div class="text-gray-300 space-y-4">
                         <p>
-                            <strong class="text-amber-400">{{ $car->brand }} {{ $car->model }}</strong> ini adalah pilihan yang tepat buat lo yang butuh mobil yang nyaman dan terpercaya.
+                            <strong class="text-amber-400">{{ $car->brand }} {{ $car->model }}</strong> ini adalah pilihan yang tepat buat kalian yang butuh mobil yang nyaman dan terpercaya.
                             Dengan tahun {{ $car->year }}, mobil ini masih muda banget dan pasti masih oke performanya!
                         </p>
 
@@ -233,13 +233,13 @@
                             @if($car->fuel_type) bahan bakar <strong class="text-amber-400">{{ $car->fuel_type }}</strong>@endif
                             @if($car->transmission) transmisi <strong class="text-amber-400">{{ $car->transmission }}</strong>@endif
                             @if($car->seat_capacity) kapasitas <strong class="text-amber-400">{{ $car->seat_capacity }} kursi</strong>@endif
-                            yang bakal bikin perjalanan lo makin seru!
+                            yang bakal bikin perjalanan kalian makin seru!
                         </p>
                         @endif
 
                         <p>
                             Dilengkapi dengan fitur-fitur keamanan dan kenyamanan terbaru, {{ $car->brand }} {{ $car->model }}
-                            siap nemenin lo jalan-jalan dengan aman dan nyaman. Kita jamin mobil ini udah dicek berkala
+                            siap nemenin kalian jalan-jalan dengan aman dan nyaman. Kita jamin mobil ini udah dicek berkala
                             biar performanya selalu optimal.
                         </p>
                         <div class="mt-6 space-y-2">
@@ -257,18 +257,13 @@
                             </div>
                             <div class="flex items-center gap-3 text-green-400">
                                 <span class="text-lg">✅</span>
-                                <span>Sound system joss</span>
+                                <span>Sound system</span>
                             </div>
                             <div class="flex items-center gap-3 text-green-400">
                                 <span class="text-lg">✅</span>
                                 <span>Ban serep lengkap</span>
                             </div>
-                            @if($car->color)
-                            <div class="flex items-center gap-3 text-green-400">
-                                <span class="text-lg">✅</span>
-                                <span>Warna {{ $car->color }} yang kece</span>
-                            </div>
-                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -378,21 +373,66 @@
             </div>
         </div>
 
-        {{-- Related Cars --}}
+{{-- Related Cars --}}
         @if(isset($relatedCars) && $relatedCars->count() > 0)
         <div class="mt-16">
             <h2 class="text-3xl font-black text-white mb-8">🚗 Mobil Serupa Lainnya</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($relatedCars as $relatedCar)
+
+                {{-- Logic Pengecekan Gambar (DIAMBIL DARI CODE ANDA SEBELUMNYA) --}}
+                @php
+                    $hasImage = false;
+                    $imageUrl = null;
+                    // Cek gambar utama
+                    if ($relatedCar->image) {
+                        if (file_exists(public_path('storage/cars/' . $relatedCar->image))) {
+                            $imageUrl = url('storage/cars/' . $relatedCar->image);
+                            $hasImage = true;
+                        } elseif (file_exists(public_path('storage/' . $relatedCar->image))) {
+                            $imageUrl = url('storage/' . $relatedCar->image);
+                            $hasImage = true;
+                        }
+                    }
+
+                    // Jika tidak ada gambar utama, cek dari gallery (optional, tapi aman)
+                    if (!$hasImage && $relatedCar->images) {
+                        $galleryImages = is_string($relatedCar->images) ? json_decode($relatedCar->images, true) : $relatedCar->images;
+                        if (is_array($galleryImages) && count($galleryImages) > 0) {
+                            $firstImage = $galleryImages[0];
+                            if (file_exists(public_path('storage/cars/gallery/' . $firstImage))) {
+                                $imageUrl = url('storage/cars/gallery/' . $firstImage);
+                                $hasImage = true;
+                            } elseif (file_exists(public_path('storage/' . $firstImage))) {
+                                $imageUrl = url('storage/' . $firstImage);
+                                $hasImage = true;
+                            }
+                        }
+                    }
+                @endphp
+                {{-- END Logic Pengecekan Gambar --}}
+
                 <a href="{{ route('landing.detail', $relatedCar->id) }}"
                    class="group bg-gray-800 rounded-2xl shadow-lg hover:shadow-amber-500/10 transition-all duration-300 overflow-hidden border border-gray-700 hover:border-amber-500/30 hover:-translate-y-1">
-                    <div class="bg-gradient-to-br from-gray-900 to-gray-700 h-40 flex items-center justify-center">
-                        <svg class="w-16 h-16 text-amber-400/30 group-hover:text-amber-400/50 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/>
-                            <circle cx="7.5" cy="14.5" r="1.5"/>
-                            <circle cx="16.5" cy="14.5" r="1.5"/>
-                        </svg>
+
+                    {{-- Container Gambar --}}
+                    <div class="bg-gradient-to-br from-gray-900 to-gray-700 h-40 flex items-center justify-center overflow-hidden">
+                        @if($hasImage && $imageUrl)
+                            {{-- Gambar Asli Mobil --}}
+                            <img src="{{ $imageUrl }}"
+                                alt="{{ $relatedCar->brand }} {{ $relatedCar->model }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        @else
+                            {{-- Placeholder SVG jika gambar tidak ditemukan --}}
+                            <svg class="w-16 h-16 text-amber-400/30 group-hover:text-amber-400/50 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.08 3.11H5.77L6.85 7zM19 17H5v-5h14v5z"/>
+                                <circle cx="7.5" cy="14.5" r="1.5"/>
+                                <circle cx="16.5" cy="14.5" r="1.5"/>
+                            </svg>
+                        @endif
                     </div>
+                    {{-- End Container Gambar --}}
+
                     <div class="p-4">
                         <h3 class="font-bold text-white group-hover:text-amber-400 transition">{{ $relatedCar->brand }} {{ $relatedCar->model }}</h3>
                         <div class="flex items-center justify-between mt-2">
