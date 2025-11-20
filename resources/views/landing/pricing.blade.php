@@ -222,7 +222,7 @@
                         </a>
 
                         @if($car->status == 'available')
-                        <a href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20booking%20{{ $car->brand }}%20{{ $car->model }}%20({{ $car->plate_number }})%20-%20Rp%20{{ number_format($car->price_per_day, 0, ',', '.') }}/hari"
+                        <a href="https://wa.me/6285601700507?text=Halo,%20saya%20ingin%20booking%20{{ $car->brand }}%20{{ $car->model }}%20%20-%20Rp%20{{ number_format($car->price_per_day, 0, ',', '.') }}/hari"
                            target="_blank"
                            class="block w-full bg-green-600 text-white text-center py-3 rounded-xl font-bold hover:bg-green-700 transition-all duration-300 flex items-center justify-center gap-2 border border-green-500/30">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
