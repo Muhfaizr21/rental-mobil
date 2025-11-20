@@ -217,7 +217,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const messageText = document.createElement('p');
         messageText.className = 'text-sm whitespace-pre-wrap leading-relaxed';
-        messageText.textContent = text;
+        // messageText.textContent = text;
+
+        const timeSpan = document.createElement('span');
+        timeSpan.className = sender === 'user' ? 'text-xs text-blue-100 mt-2 block' : 'text-xs text-gray-400 mt-2 block';
+        timeSpan.textContent = timestamp || new Date().toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        messageBubble.appendChild(messageText);
+        messageBubble.appendChild(timeSpan);
+        messageDiv.appendChild(messageBubble);
+
+        chatbotMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    function addMessage(text, sender, timestamp = null) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-5 animate-fade-in`;
+
+        const messageBubble = document.createElement('div');
+        if (sender === 'user') {
+            messageBubble.className = 'bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl rounded-br-none px-5 py-4 max-w-[90%] shadow-xl';
+        } else {
+            messageBubble.className = 'bg-gray-800 rounded-2xl rounded-tl-none px-5 py-4 max-w-[90%] shadow-lg border border-gray-700';
+
+            // Add bot avatar for bot messages
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'flex items-center space-x-2 mb-2';
+            avatarDiv.innerHTML = `
+                <div class="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    R
+                </div>
+                <span class="text-xs font-semibold text-white">Rental Assistant</span>
+            `;
+            messageBubble.appendChild(avatarDiv);
+        }
+
+        const messageText = document.createElement('p');
+        messageText.className = 'text-sm leading-relaxed'; // Hapus whitespace-pre-wrap karena kita sudah handle <br>
+        
+        // --- PERUBAHAN ADA DI SINI ---
+        if (sender === 'bot') {
+            // Kalau Bot, kita format HTML-nya (biar bold muncul)
+            messageText.innerHTML = formatMessage(text);
+        } else {
+            // Kalau User, tetap text biasa (biar aman dari kode aneh)
+            messageText.textContent = text;
+        }
+        // -----------------------------
 
         const timeSpan = document.createElement('span');
         timeSpan.className = sender === 'user' ? 'text-xs text-blue-100 mt-2 block' : 'text-xs text-gray-400 mt-2 block';
@@ -290,17 +340,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function saveChatToHistory() {
         const messages = [];
-        chatbotMessages.querySelectorAll('.flex').forEach(messageDiv => {
-            const messageBubble = messageDiv.querySelector('div');
-            const messageText = messageBubble.querySelector('p').textContent;
-            const timestamp = messageBubble.querySelector('span').textContent;
-            const sender = messageDiv.classList.contains('justify-end') ? 'user' : 'bot';
+        
+        // Menggunakan ':scope > .flex' agar hanya mengambil elemen flex
+        // yang merupakan ANAK LANGSUNG dari chatbotMessages (tidak mengambil flex yang bersarang di dalam)
+        const messageRows = chatbotMessages.querySelectorAll(':scope > .flex');
 
-            messages.push({
-                text: messageText,
-                sender: sender,
-                timestamp: timestamp
-            });
+        messageRows.forEach(messageDiv => {
+            // Ambil bubble pembungkus pesan
+            const messageBubble = messageDiv.querySelector('div');
+            
+            // Cek apakah di dalam bubble ada tag <p> (teks pesan) dan <span> (waktu)
+            // Gunakan optional chaining (?) agar tidak error jika elemen tidak ditemukan
+            const pElement = messageBubble?.querySelector('p');
+            const timeElement = messageBubble?.querySelector('span');
+
+            // HANYA simpan jika elemen <p> ditemukan
+            // Ini otomatis memfilter "Loading Animation" atau elemen layout lain
+            if (pElement && timeElement) {
+                const messageText = pElement.textContent;
+                const timestamp = timeElement.textContent;
+                // Cek sender berdasarkan class justify-end (punya user)
+                const sender = messageDiv.classList.contains('justify-end') ? 'user' : 'bot';
+
+                messages.push({
+                    text: messageText,
+                    sender: sender,
+                    timestamp: timestamp
+                });
+            }
         });
 
         localStorage.setItem('rental_chatbot_history', JSON.stringify(messages));
@@ -320,6 +387,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function scrollToBottom() {
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    // Fungsi untuk mengubah format Markdown (**bold**) menjadi HTML (<b>bold</b>)
+    function formatMessage(text) {
+        // 1. Ubah **teks** menjadi <strong>teks</strong>
+        let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-blue-100">$1</strong>');
+        
+        // 2. Ubah baris baru (\n) menjadi <br> agar enter-nya terbaca
+        formatted = formatted.replace(/\n/g, '<br>');
+        
+        // 3. (Opsional) Deteksi link dan buat bisa diklik
+        formatted = formatted.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" class="text-blue-400 underline hover:text-blue-300">$1</a>');
+
+        return formatted;
     }
 });
 </script>
