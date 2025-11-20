@@ -1,4 +1,8 @@
 @extends('layouts.app')
+
+@section('title', 'Daftar Harga Sewa Mobil Cirebon Murah - RentGo Indonesia')
+@section('meta_description', 'Cek daftar harga rental mobil di Cirebon terbaru. Mulai dari Avanza, Innova, hingga Alphard. Harga transparan, murah, dan bisa nego.')
+
 @section('content')
 
 {{-- Hero Section --}}

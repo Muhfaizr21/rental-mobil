@@ -1,9 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="id"> <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>{{ $title ?? 'RentGo.id - Rental Car Indonesia' }}</title>
+    
+    {{-- 1. SEO TITLE: Ini yang muncul biru-biru di Google --}}
+    <title>@yield('title', 'Rental Mobil Cirebon Lepas Kunci - RentGo Indonesia')</title>
+    
+    {{-- 2. META DESCRIPTION: Penjelasan abu-abu di bawah link Google --}}
+    <meta name="description" content="@yield('meta_description', 'Sewa mobil Cirebon terpercaya, unit bersih & wangi. Melayani lepas kunci atau dengan supir. Tersedia Avanza, Innova, Brio. Booking sekarang!')">
+    
+    {{-- 3. KEYWORDS: (Opsional, Google jarang baca ini tapi boleh ada) --}}
+    <meta name="keywords" content="rental mobil cirebon, sewa mobil cirebon, rent car cirebon, sewa mobil lepas kunci cirebon, rentgo cirebon">
+
+    {{-- 4. OPEN GRAPH (Supaya link cakep pas di share di WA) --}}
+    <meta property="og:title" content="@yield('title', 'Rental Mobil Cirebon - RentGo Indonesia')">
+    <meta property="og:description" content="@yield('meta_description', 'Sewa mobil Cirebon unit lengkap dan harga bersahabat.')">
+    <meta property="og:image" content="{{ asset('path/to/logo-or-car.jpg') }}"> 
+    <meta property="og:url" content="{{ url()->current() }}">
+
+    {{-- Canonical URL (Penting untuk SEO) --}}
+    <link rel="canonical" href="{{ url()->current() }}" />
+
     @vite('resources/css/app.css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

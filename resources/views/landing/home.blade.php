@@ -1,4 +1,8 @@
 @extends('layouts.app')
+
+@section('title', 'Rental Mobil Cirebon Terlengkap & 24 Jam - RentGo Indonesia')
+@section('meta_description', 'Cari rental mobil di Cirebon? RentGo solusinya. Unit ready 24 jam, bisa lepas kunci atau plus driver. Harga transparan tanpa biaya tersembunyi.')
+
 @section('content')
 
 {{-- Hero Section dengan vibe yang lebih casual --}}
@@ -17,9 +21,8 @@
 
 
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
-                    Sewa Mobil<br>
-
-                    <span class="text-amber-400">Tanpa Perlu Mikir Ribet</span>
+                    Sewa Mobil <span class="text-amber-400">Cirebon</span><br>
+                    <span class="text-2xl md:text-4xl font-bold text-gray-300">Tanpa Mikir Ribet</span>
                 </h1>
 
                 <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 max-w-xl">
@@ -185,9 +188,6 @@
     <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-amber-500/20 to-transparent"></div>
 
 </section>
-
-
-
 
 {{-- Features Section --}}
 <section class="py-24 bg-gradient-to-br from-black via-gray-900 to-gray-800 relative overflow-hidden">
@@ -415,6 +415,42 @@
         </div>
     </div>
 </section>
+
+{{-- SCHEMA MARKUP (JSON-LD) --}}
+{{-- Ini "Bisikan Rahasia" ke Google biar dia tau ini bisnis lokal Cirebon --}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CarRental",
+  "name": "RentGo Indonesia - Rental Mobil Cirebon",
+  "image": "https://rentgoindonesia.com/logo.png",
+  "url": "https://rentgoindonesia.com",
+  "telephone": "+6285601700507",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Jl. Griya Cemp. Arum Jl. Flamboyan XIII No.D.341, Wanasaba Lor, Kec. Talun, Kabupaten Cirebon, Jawa Barat 45171",
+    "addressLocality": "Cirebon",
+    "addressRegion": "Jawa Barat",
+    "postalCode": "45171",
+    "addressCountry": "ID"
+  },
+  "priceRange": "$$",
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "opens": "00:00",
+    "closes": "23:59"
+  }
+}
+</script>
 
 <style>
 @keyframes float {
