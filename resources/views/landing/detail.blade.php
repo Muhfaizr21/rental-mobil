@@ -66,7 +66,6 @@
                         <div>
                             <div class="text-sm opacity-90 mb-1">Harga Sewa Per Hari</div>
                             <div class="text-4xl font-black">Rp {{ number_format($car->price_per_day, 0, ',', '.') }}</div>
-                            <div class="text-sm opacity-90">Sudah termasuk asuransi</div>
                         </div>
                     </div>
                 </div>
