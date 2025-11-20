@@ -305,9 +305,6 @@
 <section class="py-24 bg-gradient-to-b from-gray-800 to-gray-900">
     <div class="max-w-7xl mx-auto px-4 md:px-6">
         <div class="text-center mb-16">
-            <div class="inline-block bg-amber-500/20 text-amber-300 px-4 py-2 rounded-full text-sm font-bold mb-4 border border-amber-500/30">
-                💬 KATA MEREKA YANG UDAH COBA
-            </div>
             <h2 class="text-4xl md:text-5xl font-black text-white mb-4">
                 Dengerin <span class="text-amber-400">Cerita Mereka</span>
             </h2>
@@ -378,7 +375,7 @@
             Udah Siap<br>Jalan-Jalan?
         </h2>
         <p class="text-xl text-amber-100/90 mb-10 max-w-2xl mx-auto">
-            Jangan nunggu besok, mobil impian kalian udah nunggu dari sekarang!
+            Binggung mau kemana? Rentgo in aja duluu
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
