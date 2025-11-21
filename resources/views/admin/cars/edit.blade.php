@@ -127,10 +127,10 @@
                                                 <i class="fas fa-calendar me-2"></i>Tahun Produksi
                                                 <span class="required">*</span>
                                             </label>
-                                            <input type="number"
+                                            <input type="text"
                                                 class="form-control-custom @error('year') is-invalid @enderror" id="year"
-                                                name="year" value="{{ old('year', $car->year) }}" min="1990"
-                                                max="{{ date('Y') + 1 }}" placeholder="Contoh: 2023" required>
+                                                name="year" value="{{ old('year', $car->year) }}"
+                                                placeholder="Contoh: 2023, 2023-2024" required>
                                             @error('year')
                                                 <div class="invalid-feedback-custom">
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
@@ -139,7 +139,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- PERBAIKAN: Selaraskan dengan create form -->
                                     <div class="col-md-3">
                                         <div class="form-group-custom">
                                             <label for="color" class="form-label-custom">
@@ -165,7 +164,6 @@
                                             <select class="form-select-custom @error('fuel_type') is-invalid @enderror"
                                                 id="fuel_type" name="fuel_type">
                                                 <option value="">Pilih bahan bakar...</option>
-                                                <!-- PERBAIKAN: Gunakan value yang sama dengan create form -->
                                                 <option value="bensin" {{ old('fuel_type', $car->fuel_type) == 'bensin' ? 'selected' : '' }}>
                                                     Bensin
                                                 </option>
@@ -249,16 +247,17 @@
                                                 <div class="current-image-container mb-3">
                                                     <div class="current-image-header">
                                                         <span class="current-image-label">Gambar Saat Ini:</span>
-                                                        <label class="remove-image-checkbox">
-                                                            <input type="checkbox" name="remove_image" value="1">
-                                                            <span class="checkbox-label">Hapus gambar</span>
-                                                        </label>
                                                     </div>
                                                     <div class="current-image-preview">
-                                                        <img src="{{ Storage::disk('public')->url($car->image) }}"
+                                                        <img src="{{ $car->image_url }}"
                                                             alt="{{ $car->brand }} {{ $car->model }}"
-                                                            class="current-main-image">
+                                                            class="current-main-image"
+                                                            onerror="this.src='{{ asset('images/default-car.jpg') }}'">
                                                     </div>
+                                                    <label class="remove-image-checkbox">
+                                                        <input type="checkbox" name="remove_image" value="1">
+                                                        <span class="checkbox-label">Hapus gambar</span>
+                                                    </label>
                                                 </div>
                                             @endif
 
@@ -300,8 +299,10 @@
                                                     <div class="current-gallery-preview">
                                                         @foreach($car->images as $index => $galleryImage)
                                                             <div class="gallery-image-item">
-                                                                <img src="{{ Storage::disk('public')->url($galleryImage) }}"
-                                                                    alt="Gallery image {{ $index + 1 }}" class="gallery-thumbnail">
+                                                                <img src="{{ $car->gallery_urls[$index] ?? asset('images/default-car.jpg') }}"
+                                                                    alt="Gallery image {{ $index + 1 }}"
+                                                                    class="gallery-thumbnail"
+                                                                    onerror="this.src='{{ asset('images/default-car.jpg') }}'">
                                                                 <label class="remove-gallery-checkbox">
                                                                     <input type="checkbox" name="remove_images[]"
                                                                         value="{{ $galleryImage }}">

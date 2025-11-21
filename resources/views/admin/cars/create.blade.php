@@ -121,10 +121,10 @@
                                                 <i class="fas fa-calendar me-2"></i>Tahun Produksi
                                                 <span class="required">*</span>
                                             </label>
-                                            <input type="number"
+                                            <input type="text"
                                                 class="form-control-custom @error('year') is-invalid @enderror" id="year"
-                                                name="year" value="{{ old('year') }}" min="1990" max="{{ date('Y') + 1 }}"
-                                                placeholder="Contoh: 2023" required>
+                                                name="year" value="{{ old('year') }}"
+                                                placeholder="Contoh: 2023, 2023-2024" required>
                                             @error('year')
                                                 <div class="invalid-feedback-custom">
                                                     <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}

@@ -9,28 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * @property int $id
- * @property string $brand
- * @property string $model
- * @property string $plate_number
- * @property int $year
- * @property int $price_per_day
- * @property string $status
- * @property string $color
- * @property string $fuel_type
- * @property string $transmission
- * @property int $seat_capacity
- * @property string|null $image
- * @property array|null $images
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $full_name
- * @property string $formatted_price
- * @property string $status_badge
- * @property string|null $image_url
- * @property array $gallery_urls
- */
 class Car extends Model
 {
     use HasFactory, SoftDeletes;
@@ -51,7 +29,6 @@ class Car extends Model
     ];
 
     protected $casts = [
-        'year' => 'integer',
         'price_per_day' => 'integer',
         'seat_capacity' => 'integer',
         'images' => 'array'
@@ -66,11 +43,16 @@ class Car extends Model
     }
 
     /**
-     * Accessors
+     * Accessors - SIMPLIFIED & FIXED
      */
     public function getFullNameAttribute(): string
     {
         return "{$this->brand} {$this->model} ({$this->year})";
+    }
+
+    public function getCleanYearRangeAttribute(): string
+    {
+        return $this->cleanYearFormat($this->year);
     }
 
     public function getFormattedPriceAttribute(): string
@@ -91,57 +73,135 @@ class Car extends Model
         return '<span class="badge badge-' . $status['class'] . '">' . $status['label'] . '</span>';
     }
 
+    /**
+     * FIXED: Simple and reliable image URL accessor
+     */
     public function getImageUrlAttribute(): ?string
     {
         if (!$this->image) {
             return null;
         }
 
-        return Storage::url($this->image);
+        // Approach 1: Check if it's already a full URL
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        // Approach 2: Try Storage URL first (Laravel default)
+        try {
+            if (Storage::disk('public')->exists($this->image)) {
+                return Storage::disk('public')->url($this->image);
+            }
+        } catch (\Exception $e) {
+            // Continue to next approach
+        }
+
+        // Approach 3: Try with cars/ prefix
+        try {
+            if (Storage::disk('public')->exists('cars/' . $this->image)) {
+                return Storage::disk('public')->url('cars/' . $this->image);
+            }
+        } catch (\Exception $e) {
+            // Continue to next approach
+        }
+
+        // Approach 4: Try asset URL (for public storage)
+        $assetPath = 'storage/' . $this->image;
+        if (file_exists(public_path($assetPath))) {
+            return asset($assetPath);
+        }
+
+        // Approach 5: Try with cars/ prefix in asset
+        $assetCarsPath = 'storage/cars/' . $this->image;
+        if (file_exists(public_path($assetCarsPath))) {
+            return asset($assetCarsPath);
+        }
+
+        return null;
     }
 
+    /**
+     * FIXED: Simple gallery URLs
+     */
     public function getGalleryUrlsAttribute(): array
     {
         if (!$this->images) {
             return [];
         }
 
-        return array_map(function ($image) {
-            return Storage::url($image);
-        }, $this->images);
+        $urls = [];
+        $galleryImages = is_string($this->images) ? json_decode($this->images, true) : $this->images;
+
+        if (!is_array($galleryImages)) {
+            return [];
+        }
+
+        foreach ($galleryImages as $image) {
+            if (!$image) continue;
+
+            // Use the same logic as image_url
+            if (filter_var($image, FILTER_VALIDATE_URL)) {
+                $urls[] = $image;
+                continue;
+            }
+
+            try {
+                if (Storage::disk('public')->exists($image)) {
+                    $urls[] = Storage::disk('public')->url($image);
+                    continue;
+                }
+            } catch (\Exception $e) {}
+
+            try {
+                if (Storage::disk('public')->exists('cars/gallery/' . $image)) {
+                    $urls[] = Storage::disk('public')->url('cars/gallery/' . $image);
+                    continue;
+                }
+            } catch (\Exception $e) {}
+
+            $assetPath = 'storage/' . $image;
+            if (file_exists(public_path($assetPath))) {
+                $urls[] = asset($assetPath);
+                continue;
+            }
+
+            $assetGalleryPath = 'storage/cars/gallery/' . $image;
+            if (file_exists(public_path($assetGalleryPath))) {
+                $urls[] = asset($assetGalleryPath);
+                continue;
+            }
+        }
+
+        return $urls;
     }
 
+    public function getGalleryCountAttribute(): int
+    {
+        if (!$this->images) {
+            return 0;
+        }
+
+        $galleryImages = is_string($this->images) ? json_decode($this->images, true) : $this->images;
+        return is_array($galleryImages) ? count($galleryImages) : 0;
+    }
+
+    /**
+     * FIXED: Main image with proper fallback
+     */
     public function getMainImageAttribute(): string
     {
+        // Try image_url first
         if ($this->image_url) {
             return $this->image_url;
         }
 
-        // Fallback to default car image based on brand
-        $brand = strtolower($this->brand);
-        $defaultImages = [
-            'toyota' => '/images/default/toyota.jpg',
-            'honda' => '/images/default/honda.jpg',
-            'mitsubishi' => '/images/default/mitsubishi.jpg',
-            'suzuki' => '/images/default/suzuki.jpg',
-            'daihatsu' => '/images/default/daihatsu.jpg',
-            'nissan' => '/images/default/nissan.jpg',
-            'wuling' => '/images/default/wuling.jpg',
-            'hyundai' => '/images/default/hyundai.jpg',
-            'kia' => '/images/default/kia.jpg',
-            'mazda' => '/images/default/mazda.jpg',
-        ];
-
-        return $defaultImages[$brand] ?? '/images/default/car.jpg';
-    }
-
-    public function getFirstGalleryImageAttribute(): ?string
-    {
-        if (empty($this->gallery_urls)) {
-            return null;
+        // Try first gallery image
+        if (!empty($this->gallery_urls)) {
+            return $this->gallery_urls[0];
         }
 
-        return $this->gallery_urls[0];
+        // Final fallback - default car image
+        return asset('images/default-car.jpg');
     }
 
     /**
@@ -188,6 +248,34 @@ class Car extends Model
     }
 
     /**
+     * Year Format Methods
+     */
+    private function cleanYearFormat($year): string
+    {
+        if (empty($year)) {
+            $currentYear = date('Y');
+            return $currentYear . ' - ' . $currentYear;
+        }
+
+        // Remove unwanted characters, keep only numbers and hyphens
+        $cleanYear = preg_replace('/[^0-9\s\-]/', '', $year);
+        $cleanYear = trim($cleanYear);
+
+        // Extract all 4-digit years
+        preg_match_all('/(\d{4})/', $cleanYear, $matches);
+        $years = $matches[1] ?? [];
+
+        if (count($years) >= 2) {
+            return $years[0] . ' - ' . end($years);
+        } elseif (count($years) === 1) {
+            return $years[0] . ' - ' . $years[0];
+        }
+
+        $currentYear = date('Y');
+        return $currentYear . ' - ' . $currentYear;
+    }
+
+    /**
      * Business Logic
      */
     public function isAvailable(): bool
@@ -215,18 +303,13 @@ class Car extends Model
         return !empty($this->images) && count($this->images) > 0;
     }
 
-    public function galleryCount(): int
-    {
-        return $this->images ? count($this->images) : 0;
-    }
-
     /**
      * Image Management Methods
      */
     public function deleteImage(): bool
     {
-        if ($this->image && Storage::exists($this->image)) {
-            Storage::delete($this->image);
+        if ($this->image && Storage::disk('public')->exists($this->image)) {
+            Storage::disk('public')->delete($this->image);
             $this->update(['image' => null]);
             return true;
         }
@@ -236,12 +319,9 @@ class Car extends Model
     public function deleteGalleryImage(string $imagePath): bool
     {
         if ($this->images && in_array($imagePath, $this->images)) {
-            // Delete from storage
-            if (Storage::exists($imagePath)) {
-                Storage::delete($imagePath);
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
             }
-
-            // Remove from array
             $updatedImages = array_values(array_diff($this->images, [$imagePath]));
             $this->update(['images' => $updatedImages]);
             return true;
@@ -251,19 +331,14 @@ class Car extends Model
 
     public function deleteAllImages(): void
     {
-        // Delete main image
         if ($this->image) {
-            Storage::delete($this->image);
+            Storage::disk('public')->delete($this->image);
         }
-
-        // Delete gallery images
         if ($this->images) {
             foreach ($this->images as $image) {
-                Storage::delete($image);
+                Storage::disk('public')->delete($image);
             }
         }
-
-        // Update model
         $this->update([
             'image' => null,
             'images' => null
@@ -296,16 +371,16 @@ class Car extends Model
     {
         parent::boot();
 
+        // Clean year format when creating/updating
+        static::saving(function ($car) {
+            $car->year = $car->cleanYearFormat($car->year);
+        });
+
         // Delete images when car is deleted
         static::deleting(function ($car) {
             if ($car->isForceDeleting()) {
                 $car->deleteAllImages();
             }
-        });
-
-        // Restore logic if needed
-        static::restoring(function ($car) {
-            // Add any restore logic here if needed
         });
     }
 }

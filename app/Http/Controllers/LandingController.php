@@ -429,27 +429,103 @@ class LandingController extends Controller
         ];
     }
 
-    /**
-     * Get pricing stats - PERBAIKAN: Hitung semua mobil
-     */
-    private function getPricingStats(): array
-    {
+ /**
+ * Get pricing stats - FIX SEMENTARA: Handle kolom yang belum ada
+ */
+private function getPricingStats(): array
+{
+    // Cek apakah kolom year_start dan year_end sudah ada
+    $hasYearStart = \Schema::hasColumn('cars', 'year_start');
+    $hasYearEnd = \Schema::hasColumn('cars', 'year_end');
+
+    if ($hasYearStart && $hasYearEnd) {
+        // Jika kolom sudah ada, gunakan query baru
         $carStats = Car::whereNull('deleted_at')
             ->selectRaw('COUNT(*) as total,
                          COUNT(CASE WHEN status = "available" THEN 1 END) as available,
-                         MIN(year) as min_year,
-                         MAX(year) as max_year,
+                         MIN(year_start) as min_year,
+                         MAX(year_end) as max_year,
                          MIN(price_per_day) as min_price')
             ->first();
 
-        return [
-            'total_cars' => $carStats->total ?? 0,
-            'available_cars' => $carStats->available ?? 0,
-            'rented_cars' => Car::where('status', 'rented')->whereNull('deleted_at')->count(),
-            'maintenance_cars' => Car::where('status', 'maintenance')->whereNull('deleted_at')->count(),
-            'min_year' => $carStats->min_year ?? date('Y'),
-            'max_year' => $carStats->max_year ?? date('Y'),
-            'min_price' => $carStats->min_price ?? 0,
-        ];
+        $minYear = $carStats->min_year ?? date('Y');
+        $maxYear = $carStats->max_year ?? date('Y');
+    } else {
+        // Jika kolom belum ada, gunakan parsing dari year string
+        $carStats = Car::whereNull('deleted_at')
+            ->selectRaw('COUNT(*) as total,
+                         COUNT(CASE WHEN status = "available" THEN 1 END) as available,
+                         MIN(price_per_day) as min_price')
+            ->first();
+
+        // Hitung min dan max year dari string
+        $allYears = Car::whereNull('deleted_at')->pluck('year');
+
+        $startYears = [];
+        $endYears = [];
+
+        foreach ($allYears as $year) {
+            if (str_contains($year, ' - ')) {
+                $years = explode(' - ', $year);
+                if (count($years) === 2) {
+                    $startYears[] = (int) trim($years[0]);
+                    $endYears[] = (int) trim($years[1]);
+                }
+            } else {
+                $singleYear = (int) trim($year);
+                if ($singleYear > 0) {
+                    $startYears[] = $singleYear;
+                    $endYears[] = $singleYear;
+                }
+            }
+        }
+
+        $minYear = !empty($startYears) ? min($startYears) : date('Y');
+        $maxYear = !empty($endYears) ? max($endYears) : date('Y');
+    }
+
+    return [
+        'total_cars' => $carStats->total ?? 0,
+        'available_cars' => $carStats->available ?? 0,
+        'rented_cars' => Car::where('status', 'rented')->whereNull('deleted_at')->count(),
+        'maintenance_cars' => Car::where('status', 'maintenance')->whereNull('deleted_at')->count(),
+        'min_year' => $minYear,
+        'max_year' => $maxYear,
+        'min_price' => $carStats->min_price ?? 0,
+    ];
+}
+
+    /**
+     * Temporary method to fix existing year data (run once)
+     */
+    public function fixYearData()
+    {
+        try {
+            $cars = Car::all();
+            $fixedCount = 0;
+
+            foreach ($cars as $car) {
+                // Jika belum ada year_start dan year_end, generate dari year string
+                if (!$car->year_start || !$car->year_end) {
+                    $cleanYear = $car->cleanYearFormat($car->year);
+                    if (str_contains($cleanYear, ' - ')) {
+                        $years = explode(' - ', $cleanYear);
+                        $car->update([
+                            'year_start' => (int) $years[0],
+                            'year_end' => (int) $years[1],
+                            'year' => $cleanYear
+                        ]);
+                        $fixedCount++;
+                    }
+                }
+            }
+
+            return redirect()->route('admin.cars.index')
+                ->with('success', "Data tahun berhasil dibersihkan! {$fixedCount} mobil diperbaiki.");
+        } catch (\Exception $e) {
+            Log::error('Year data fix failed: ' . $e->getMessage());
+            return redirect()->route('admin.cars.index')
+                ->with('error', 'Gagal membersihkan data tahun: ' . $e->getMessage());
+        }
     }
 }

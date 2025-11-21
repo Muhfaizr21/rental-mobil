@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 
 class CarController extends Controller
 {
@@ -38,7 +39,81 @@ class CarController extends Controller
             SUM(CASE WHEN status = "maintenance" THEN 1 ELSE 0 END) as maintenance
         ')->first();
 
+        // FIX: Add proper year range stats
+        $yearStats = $this->getYearRangeStats();
+        $stats->min_year = $yearStats['min_year'];
+        $stats->max_year = $yearStats['max_year'];
+
         return view('admin.cars.index', compact('cars', 'stats'));
+    }
+
+    /**
+     * Calculate proper year range from cars data
+     */
+    private function getYearRangeStats()
+    {
+        $cars = Car::all();
+        $allStartYears = [];
+        $allEndYears = [];
+
+        foreach ($cars as $car) {
+            $cleanYear = $this->cleanYearFormat($car->year);
+
+            if (str_contains($cleanYear, ' - ')) {
+                $years = explode(' - ', $cleanYear);
+                if (count($years) === 2) {
+                    $allStartYears[] = (int) trim($years[0]);
+                    $allEndYears[] = (int) trim($years[1]);
+                }
+            } else {
+                // Jika format single year
+                $year = (int) trim($cleanYear);
+                if ($year > 0) {
+                    $allStartYears[] = $year;
+                    $allEndYears[] = $year;
+                }
+            }
+        }
+
+        // Jika tidak ada data, gunakan tahun sekarang
+        if (empty($allStartYears)) {
+            $currentYear = date('Y');
+            return [
+                'min_year' => $currentYear,
+                'max_year' => $currentYear
+            ];
+        }
+
+        return [
+            'min_year' => min($allStartYears),
+            'max_year' => max($allEndYears)
+        ];
+    }
+
+    /**
+     * Clean year format from messy strings
+     */
+    private function cleanYearFormat($year)
+    {
+        if (empty($year)) {
+            return date('Y') . ' - ' . date('Y');
+        }
+
+        // Remove unwanted characters, keep only numbers and hyphens
+        $cleanYear = preg_replace('/[^0-9\s\-]/', '', $year);
+        $cleanYear = trim($cleanYear);
+
+        // Extract all 4-digit years
+        preg_match_all('/(\d{4})/', $cleanYear, $matches);
+        $years = $matches[1] ?? [];
+
+        if (count($years) >= 2) {
+            return $years[0] . ' - ' . end($years);
+        } elseif (count($years) === 1) {
+            return $years[0] . ' - ' . $years[0];
+        }
+
+        return date('Y') . ' - ' . date('Y'); // fallback
     }
 
     /**
@@ -58,20 +133,18 @@ class CarController extends Controller
             'brand' => 'required|string|max:255',
             'model' => 'required|string|max:255',
             'plate_number' => 'required|string|max:255|unique:cars',
-            'year' => 'required|integer|min:1990|max:' . (date('Y') + 1),
+            'year' => 'required|string|max:20',
             'price_per_day' => 'required|numeric|min:0',
             'color' => 'nullable|string|max:255',
             'fuel_type' => 'nullable|string|max:255|in:bensin,solar,listrik,hybrid',
             'transmission' => 'nullable|string|max:255|in:manual,automatic',
             'seat_capacity' => 'nullable|integer|min:1|max:20',
             'status' => 'required|in:available,rented,maintenance',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', // 5MB max
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120'
         ], [
             'plate_number.unique' => 'Nomor plat sudah terdaftar',
             'price_per_day.min' => 'Harga harus lebih dari 0',
-            'year.min' => 'Tahun mobil tidak valid',
-            'year.max' => 'Tahun mobil tidak valid',
             'image.image' => 'File harus berupa gambar',
             'image.mimes' => 'Format gambar harus jpeg, png, jpg, gif, atau webp',
             'image.max' => 'Ukuran gambar maksimal 5MB',
@@ -81,6 +154,9 @@ class CarController extends Controller
         ]);
 
         try {
+            // Clean year format before saving
+            $validated['year'] = $this->cleanYearFormat($validated['year']);
+
             // Handle single image upload
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('cars', 'public');
@@ -103,6 +179,7 @@ class CarController extends Controller
                 'brand' => $validated['brand'],
                 'model' => $validated['model'],
                 'plate_number' => $validated['plate_number'],
+                'year' => $validated['year'],
                 'has_image' => !empty($validated['image']),
                 'has_gallery' => !empty($validated['images']),
                 'created_by' => auth()->id()
@@ -157,10 +234,9 @@ class CarController extends Controller
                 'max:255',
                 Rule::unique('cars')->ignore($car->id)
             ],
-            'year' => 'required|integer|min:1990|max:' . (date('Y') + 1),
+            'year' => 'required|string|max:20',
             'price_per_day' => 'required|numeric|min:0',
             'color' => 'nullable|string|max:255',
-            // PERBAIKAN: Ubah fuel_type validation rule agar sama dengan store()
             'fuel_type' => 'nullable|string|max:255|in:bensin,solar,listrik,hybrid',
             'transmission' => 'nullable|string|max:255|in:manual,automatic',
             'seat_capacity' => 'nullable|integer|min:1|max:20',
@@ -173,8 +249,6 @@ class CarController extends Controller
         ], [
             'plate_number.unique' => 'Nomor plat sudah terdaftar',
             'price_per_day.min' => 'Harga harus lebih dari 0',
-            'year.min' => 'Tahun mobil tidak valid',
-            'year.max' => 'Tahun mobil tidak valid',
             'image.image' => 'File harus berupa gambar',
             'image.mimes' => 'Format gambar harus jpeg, png, jpg, gif, atau webp',
             'image.max' => 'Ukuran gambar maksimal 5MB',
@@ -185,6 +259,9 @@ class CarController extends Controller
 
         try {
             $oldData = $car->toArray();
+
+            // Clean year format before saving
+            $validated['year'] = $this->cleanYearFormat($validated['year']);
 
             // Handle image removal
             if ($request->has('remove_image') && $car->image) {
@@ -349,6 +426,11 @@ class CarController extends Controller
             SUM(CASE WHEN status = "maintenance" THEN 1 ELSE 0 END) as maintenance
         ')->first();
 
+        // Add year stats for trashed page too
+        $yearStats = $this->getYearRangeStats();
+        $stats->min_year = $yearStats['min_year'];
+        $stats->max_year = $yearStats['max_year'];
+
         return view('admin.cars.trashed', compact('cars', 'stats'));
     }
 
@@ -502,5 +584,31 @@ class CarController extends Controller
         }
 
         return $imageUrls;
+    }
+
+    /**
+     * Temporary method to fix existing year data (run once)
+     */
+    public function fixYearData()
+    {
+        try {
+            $cars = Car::all();
+            $fixedCount = 0;
+
+            foreach ($cars as $car) {
+                $cleanYear = $this->cleanYearFormat($car->year);
+                if ($cleanYear !== $car->year) {
+                    $car->update(['year' => $cleanYear]);
+                    $fixedCount++;
+                }
+            }
+
+            return redirect()->route('admin.cars.index')
+                ->with('success', "Data tahun berhasil dibersihkan! {$fixedCount} mobil diperbaiki.");
+        } catch (\Exception $e) {
+            Log::error('Year data fix failed: ' . $e->getMessage());
+            return redirect()->route('admin.cars.index')
+                ->with('error', 'Gagal membersihkan data tahun: ' . $e->getMessage());
+        }
     }
 }

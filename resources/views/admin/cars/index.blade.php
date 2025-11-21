@@ -135,31 +135,23 @@
                             <td>
                                 <div class="row-number">{{ $loop->iteration + ($cars->currentPage() - 1) * $cars->perPage() }}</div>
                             </td>
-<td>
-    <div class="car-image-container">
+                            <td>
+ <div class="car-image-container">
         @if($car->image)
-            {{-- Gunakan approach yang sama seperti di show blade --}}
-            @if(file_exists(public_path('storage/cars/' . $car->image)))
-                <img src="{{ url('storage/cars/' . $car->image) }}"
-                     alt="{{ $car->brand }} {{ $car->model }}"
-                     class="car-image">
-            @elseif(file_exists(public_path('storage/' . $car->image)))
-                <img src="{{ url('storage/' . $car->image) }}"
-                     alt="{{ $car->brand }} {{ $car->model }}"
-                     class="car-image">
-            @else
-                {{-- Fallback seperti di show --}}
-                <div class="car-image-placeholder">
-                    <i class="fas fa-car-side"></i>
-                    <span>No Image</span>
-                </div>
-            @endif
+            @php
+                $filename = basename($car->image);
+                $storageUrl = Storage::disk('public')->url('cars/' . $filename);
+                $assetUrl = asset('storage/cars/' . $filename);
+            @endphp
+            <img src="{{ asset('storage/cars/' . $filename) }}"
+                 alt="{{ $car->brand }} {{ $car->model }}"
+                 class="car-image"
+                 onerror="this.src='{{ asset('images/default-car.jpg') }}'">
 
-            {{-- Gallery badge --}}
-            @if($car->images && count($car->images) > 0)
-                <div class="gallery-badge" title="{{ count($car->images) }} gambar tambahan">
+            @if($car->gallery_count > 0)
+                <div class="gallery-badge" title="{{ $car->gallery_count }} gambar tambahan">
                     <i class="fas fa-images"></i>
-                    <span>{{ count($car->images) }}</span>
+                    <span>{{ $car->gallery_count }}</span>
                 </div>
             @endif
         @else
@@ -169,13 +161,13 @@
             </div>
         @endif
     </div>
-</td>
+                            </td>
                             <td>
                                 <div class="car-info">
                                     <div class="car-brand">{{ $car->brand }}</div>
                                     <div class="car-model">{{ $car->model }}</div>
                                     <div class="car-year">{{ $car->year }}</div>
-
+                                    <div class="car-plate">{{ $car->plate_number }}</div>
                                 </div>
                             </td>
                             <td>
@@ -189,9 +181,9 @@
                                         <span>
                                             @if($car->fuel_type)
                                                 @switch($car->fuel_type)
-                                                    @case('petrol') Bensin @break
-                                                    @case('diesel') Solar @break
-                                                    @case('electric') Listrik @break
+                                                    @case('bensin') Bensin @break
+                                                    @case('solar') Solar @break
+                                                    @case('listrik') Listrik @break
                                                     @case('hybrid') Hybrid @break
                                                     @default {{ ucfirst($car->fuel_type) }}
                                                 @endswitch
@@ -220,7 +212,6 @@
                                     </div>
                                 </div>
                             </td>
-
                             <td>
                                 <div class="price-tag">
                                     <span class="price-label">Rp</span>
@@ -265,7 +256,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="text-center py-5">
+                            <td colspan="7" class="text-center py-5">
                                 <div class="empty-state">
                                     <i class="fas fa-car-side fa-4x mb-3"></i>
                                     <h5>Belum ada data mobil</h5>

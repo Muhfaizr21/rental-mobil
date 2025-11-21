@@ -32,26 +32,28 @@
 <section class="py-16 bg-gradient-to-b from-gray-900 to-gray-800">
     <div class="max-w-7xl mx-auto px-4 md:px-6">
         {{-- Stats Bar --}}
-        <div class="bg-gray-800 rounded-2xl shadow-lg p-6 mb-12 border border-amber-500/20">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div>
-                    <div class="text-3xl font-black text-amber-400 mb-1">{{ $stats['total_cars'] }}</div>
-                    <div class="text-sm text-gray-400">Total Mobil</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-black text-green-400 mb-1">{{ $stats['available_cars'] }}</div>
-                    <div class="text-sm text-gray-400">Siap Jalan</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-black text-blue-400 mb-1">{{ $stats['min_year'] }}-{{ $stats['max_year'] }}</div>
-                    <div class="text-sm text-gray-400">Range Tahun</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-black text-purple-400 mb-1">Rp {{ number_format($stats['min_price'] / 1000, 0) }}K+</div>
-                    <div class="text-sm text-gray-400">Mulai Dari</div>
-                </div>
-            </div>
+ {{-- Stats Bar --}}
+<div class="bg-gray-800 rounded-2xl shadow-lg p-6 mb-12 border border-amber-500/20">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+            <div class="text-3xl font-black text-amber-400 mb-1">{{ $stats['total_cars'] }}</div>
+            <div class="text-sm text-gray-400">Total Mobil</div>
         </div>
+        <div>
+            <div class="text-3xl font-black text-green-400 mb-1">{{ $stats['available_cars'] }}</div>
+            <div class="text-sm text-gray-400">Siap Jalan</div>
+        </div>
+        {{-- PERBAIKAN: Gunakan stats dari controller, bukan $car --}}
+        <div>
+            <div class="text-3xl font-black text-blue-400 mb-1">{{ $stats['min_year'] }}-{{ $stats['max_year'] }}</div>
+            <div class="text-sm text-gray-400">Range Tahun</div>
+        </div>
+        <div>
+            <div class="text-3xl font-black text-purple-400 mb-1">Rp {{ number_format($stats['min_price'] / 1000, 0) }}K+</div>
+            <div class="text-sm text-gray-400">Mulai Dari</div>
+        </div>
+    </div>
+</div>
 
         {{-- Cars Grid --}}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
