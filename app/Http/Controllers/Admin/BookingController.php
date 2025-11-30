@@ -83,10 +83,10 @@ class BookingController extends Controller
                 return back()->with('error', 'Mobil tidak tersedia untuk tanggal yang dipilih!')->withInput();
             }
 
-            // Calculate duration
+            // PERBAIKAN: Hitung durasi tanpa +1 (30 Nov - 1 Dec = 1 hari)
             $start = Carbon::parse((string) $validated['start_date']);
             $end = Carbon::parse((string) $validated['end_date']);
-            $duration = $start->diffInDays($end) + 1;
+            $duration = $start->diffInDays($end); // HAPUS +1
 
             // Create booking
             $booking = Booking::create(array_merge($validated, ['duration' => $duration]));
@@ -100,6 +100,7 @@ class BookingController extends Controller
                 'booking_id' => $booking->id,
                 'customer_name' => $validated['customer_name'],
                 'car_id' => $validated['car_id'],
+                'duration' => $duration,
                 'total_price' => $validated['total_price'],
                 'created_by' => Auth::id()
             ]);
@@ -155,10 +156,10 @@ class BookingController extends Controller
             $oldStatus = $booking->status;
             $oldCarId = $booking->car_id;
 
-            // Calculate duration
+            // PERBAIKAN: Hitung durasi tanpa +1
             $start = Carbon::parse((string) $validated['start_date']);
             $end = Carbon::parse((string) $validated['end_date']);
-            $duration = $start->diffInDays($end) + 1;
+            $duration = $start->diffInDays($end); // HAPUS +1
 
             $booking->update(array_merge($validated, ['duration' => $duration]));
 
@@ -169,6 +170,7 @@ class BookingController extends Controller
                 'booking_id' => $booking->id,
                 'old_status' => $oldStatus,
                 'new_status' => $validated['status'],
+                'duration' => $duration,
                 'updated_by' => Auth::id()
             ]);
 
@@ -329,7 +331,9 @@ class BookingController extends Controller
             $car = Car::findOrFail($request->input('car_id'));
             $start = Carbon::parse((string) $request->input('start_date'));
             $end = Carbon::parse((string) $request->input('end_date'));
-            $days = $start->diffInDays($end) + 1; // Include both start and end days
+
+            // PERBAIKAN: Hitung hari TANPA +1 (30 Nov - 1 Dec = 1 hari)
+            $days = $start->diffInDays($end); // HAPUS +1
 
             $totalPrice = $days * $car->price_per_day;
 

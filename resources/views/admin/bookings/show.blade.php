@@ -33,6 +33,13 @@
         </div>
     @endif
 
+    @php
+        // PERBAIKAN: Hitung ulang durasi yang benar (tanpa +1)
+        $start = \Carbon\Carbon::parse($booking->start_date);
+        $end = \Carbon\Carbon::parse($booking->end_date);
+        $correctDuration = $start->diffInDays($end); // 30 Nov - 1 Dec = 1 hari
+    @endphp
+
     <div class="row">
         <!-- Customer & Booking Information -->
         <div class="col-lg-8">
@@ -96,7 +103,7 @@
                                         <div class="text-muted small">Tanggal Selesai</div>
                                     </div>
                                     <div class="text-center mt-3">
-                                        <span class="badge bg-info fs-6">{{ $booking->duration }} hari</span>
+                                        <span class="badge bg-info fs-6">{{ $correctDuration }} hari</span>
                                     </div>
                                 </div>
                             </div>
@@ -162,7 +169,7 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted">Durasi:</span>
-                            <span class="fw-bold">{{ $booking->duration }} hari</span>
+                            <span class="fw-bold">{{ $correctDuration }} hari</span>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -294,7 +301,7 @@
                                         {{ $booking->car->brand ?? 'Mobil' }} {{ $booking->car->model ?? '' }}<br>
                                         <small class="text-muted">{{ $booking->car->plate_number ?? 'Plat tidak tersedia' }}</small>
                                     </td>
-                                    <td>{{ $booking->duration }} hari</td>
+                                    <td>{{ $correctDuration }} hari</td>
                                     <td>Rp {{ number_format($booking->car->price_per_day ?? 0, 0, ',', '.') }}</td>
                                     <td>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
                                 </tr>

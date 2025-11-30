@@ -193,6 +193,12 @@
                     </thead>
                     <tbody>
                         @forelse($bookings as $booking)
+                        @php
+                            // PERBAIKAN: Hitung ulang durasi yang benar (tanpa +1)
+                            $start = \Carbon\Carbon::parse($booking->start_date);
+                            $end = \Carbon\Carbon::parse($booking->end_date);
+                            $correctDuration = $start->diffInDays($end); // 30 Nov - 1 Dec = 1 hari
+                        @endphp
                         <tr class="booking-row">
                             <td>
                                 <div class="row-number">{{ $loop->iteration + ($bookings->currentPage() - 1) * $bookings->perPage() }}</div>
@@ -238,7 +244,7 @@
                             <td>
                                 <div class="duration-badge">
                                     <i class="fas fa-calendar-day me-1"></i>
-                                    {{ $booking->duration }} hari
+                                    {{ $correctDuration }} hari
                                 </div>
                             </td>
                             <td>

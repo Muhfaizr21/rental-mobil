@@ -15,6 +15,13 @@
         </a>
     </div>
 
+    @php
+        // PERBAIKAN: Hitung ulang durasi yang benar (tanpa +1)
+        $start = \Carbon\Carbon::parse($booking->start_date);
+        $end = \Carbon\Carbon::parse($booking->end_date);
+        $correctDuration = $start->diffInDays($end); // 30 Nov - 1 Dec = 1 hari
+    @endphp
+
     <div class="card">
         <div class="card-header bg-primary text-white py-3">
             <h6 class="m-0 fw-bold">
@@ -137,7 +144,7 @@
                                 @if($booking->car_id && $booking->start_date && $booking->end_date)
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <strong>Durasi:</strong> {{ $booking->duration }} hari
+                                            <strong>Durasi:</strong> {{ $correctDuration }} hari
                                         </div>
                                         <div class="col-md-6">
                                             <strong>Harga/hari:</strong> Rp {{ number_format($booking->car->price_per_day, 0, ',', '.') }}
@@ -235,7 +242,7 @@
                         <div class="bg-info rounded p-2 mb-2">
                             <i class="fas fa-calendar text-white fa-2x"></i>
                         </div>
-                        <h6 class="mb-1">{{ $booking->duration }} Hari</h6>
+                        <h6 class="mb-1">{{ $correctDuration }} Hari</h6>
                         <small class="text-muted">
                             {{ $booking->start_date->format('d M Y') }} - {{ $booking->end_date->format('d M Y') }}
                         </small>
